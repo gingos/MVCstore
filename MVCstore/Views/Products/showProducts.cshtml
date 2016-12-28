@@ -20,21 +20,93 @@
         <span style="color:blue" >Look at all these PRODUCTS:</span><br />
     </div>
     <div>
-        <table>
-            <tr>
-                <td>Maker</td>
-                <td>Model</td>
-                <td>Type</td>
-            </tr>
-            @foreach (Product obj in Model.productList)
-            {
-                <tr>
-                    <td>@obj.Maker</td>
-                    <td>@obj.Model</td>
-                    <td>@obj.Type</td>
-                </tr>
-            }
-        </table>
+        <input id="getPC_bt" type="button" value="get PC" onclick="getJSON('getPCbyJSON', getPC)" />
+        <input id="getPrinter_bt" type="button" value="get Printer" onclick="getJSON('getPrinterByJSON', getPrinter)" />
+        <input id="getLaptop_bt" type="button" value="get Laptop" onclick="getJSON('getLaptopByJSON', getLaptop)" />
     </div>
+    <div id="status"></div>
+    <div>
+        <table id="productsTable"></table>
+
+    </div>
+
+    <script lang="javascript">
+        
+
+        function getJSON(msg, f) {
+            $("#status").text("Loading Table...");
+            $.get(msg, null, f);
+        }
+
+        function getPC(pcList) {
+            $("#productsTable").find("tr").remove();
+            var tbl = $("#productsTable");
+            var header = "<tr>" +
+                "<td>Model</td>" +
+                "<td>Speed</td>" +
+                "<td>RAM</td>" +
+                "<td>HD</td>" +
+                "<td>Price</td>" + "</tr>";
+            tbl.append(header);
+            for (k = 0; k < pcList.length; k++) {
+                var row = "<tr>" +
+                    "<td>" + pcList[k].Model + "</td>" +
+                    "<td>" + pcList[k].Speed + "</td>" +
+                    "<td>" + pcList[k].RAM + "</td>" +
+                    "<td>" + pcList[k].HD + "</td>" +
+                    "<td>" + pcList[k].Price + "</td>" + "</tr>"
+                tbl.append(row);
+            }
+            
+            $("#status").text("")
+
+        }
+        function getPrinter(printerList) {
+            $("#productsTable").find("tr").remove();
+            var tbl = $("#productsTable");
+            var header = "<tr>" +
+                "<td>Model</td>" +
+                "<td>Color</td>" +
+                "<td>Type</td>" +
+                "<td>Price</td>" + "</tr>";
+            tbl.append(header);
+            for (k = 0; k < printerList.length; k++) {
+                var row = "<tr>" +
+                    "<td>" + printerList[k].Model + "</td>" +
+                    "<td>" + printerList[k].Color + "</td>" +
+                    "<td>" + printerList[k].Type + "</td>" +
+                    "<td>" + printerList[k].Price + "</td>" + "</tr>"
+                tbl.append(row);
+            }
+
+            $("#status").text("")
+
+        }
+        function getLaptop(laptopList) {
+            $("#productsTable").find("tr").remove();
+            var tbl = $("#productsTable");
+            var header = "<tr>" +
+                "<td>Model</td>" +
+                "<td>Speed</td>" +
+                "<td>RAM</td>" +
+                "<td>HD</td>" +
+                "<td>Screen</td>" +
+                "<td>Price</td>" + "</tr>";
+            tbl.append(header);
+            for (k = 0; k < laptopList.length; k++) {
+                var row = "<tr>" +
+                    "<td>" + laptopList[k].Model + "</td>" +
+                    "<td>" + laptopList[k].Speed + "</td>" +
+                    "<td>" + laptopList[k].RAM + "</td>" +
+                    "<td>" + laptopList[k].HD + "</td>" +
+                    "<td>" + laptopList[k].Screen + "</td>" +
+                    "<td>" + laptopList[k].Price + "</td>" + "</tr>"
+                tbl.append(row);
+            }
+
+            $("#status").text("")
+
+        }
+    </script>
 </body>
 </html>
