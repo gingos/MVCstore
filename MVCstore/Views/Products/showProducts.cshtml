@@ -1,0 +1,40 @@
+﻿@model MVCstore.ModelView.ProductViewModel
+@using MVCstore.Models
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>showProducts</title>
+</head>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<body>
+    <div> 
+        <span style="color:blue" >Look at all these PRODUCTS:</span><br />
+    </div>
+    <div>
+        <table>
+            <tr>
+                <td>Maker</td>
+                <td>Model</td>
+                <td>Type</td>
+            </tr>
+            @foreach (Product obj in Model.productList)
+            {
+                <tr>
+                    <td>@obj.Maker</td>
+                    <td>@obj.Model</td>
+                    <td>@obj.Type</td>
+                </tr>
+            }
+        </table>
+    </div>
+</body>
+</html>
