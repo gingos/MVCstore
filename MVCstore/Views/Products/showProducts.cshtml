@@ -33,9 +33,9 @@
     <script lang="javascript">
         
 
-        function getJSON(msg, f) {
+        function getJSON(action, getProduct) {
             $("#status").text("Loading Table...");
-            $.get(msg, null, f);
+            $.get(action, null, getProduct);
         }
 
         function getPC(pcList) {
@@ -91,7 +91,8 @@
                 "<td>RAM</td>" +
                 "<td>HD</td>" +
                 "<td>Screen</td>" +
-                "<td>Price</td>" + "</tr>";
+                "<td>Price</td>" +
+                "<td>Add?</td>" +"</tr>";
             tbl.append(header);
             for (k = 0; k < laptopList.length; k++) {
                 var row = "<tr>" +
@@ -100,11 +101,28 @@
                     "<td>" + laptopList[k].RAM + "</td>" +
                     "<td>" + laptopList[k].HD + "</td>" +
                     "<td>" + laptopList[k].Screen + "</td>" +
-                    "<td>" + laptopList[k].Price + "</td>" + "</tr>"
+                    "<td>" + laptopList[k].Price + "</td> "+
+                    "<td><input type='text' id='lap_count_" +k +"' value='0'/></div></td>" +
+                    "<td><input type='button' id='lap_bt_" + k + "' value='Add to Cart' onclick='buyLaptop($(\"#lap_count_" + k +"\").val()," + laptopList[k].Model + "," + laptopList[k].Price + ")'></td>" +
+                    "</tr>";
+
                 tbl.append(row);
             }
 
             $("#status").text("")
+
+        }
+
+        function buyLaptop(quantity, model, price) {
+            debugger
+            if (quantity == 0) {
+                alert('please specify quantity');
+                return;
+            }
+            alert('buy:' + quantity + ' of model NO ' + model + 'for ' + price + '$');
+            var url = '@Url.Action("buyProduct", "Products")';
+            var data = { quantity: quantity, model: model, price: price };
+            $.post(url, data, null);
 
         }
     </script>

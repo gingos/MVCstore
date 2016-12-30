@@ -7,13 +7,13 @@ using System.Web;
 
 namespace MVCstore.DAL
 {
-    public class LaptopDal : DbContext
+    public class OrderDal: DbContext
     {
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Laptop>().ToTable("Laptop");
+            modelBuilder.Entity<Order>().ToTable("Orders");
         }
-        public DbSet<Laptop> laptops { get; set; }
+        public DbSet<Order> orders { get; set; }
     }
 }

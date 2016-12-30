@@ -12,6 +12,7 @@ namespace MVCstore.ModelView
         public PC pc { get; set; }
         public Printer printer { get; set; }
         public Laptop laptop { get; set; }
+        public Order order { get; set; }
 
         public List<Product> productList { get; set; }
         public List<PC> pcList { get; set; }

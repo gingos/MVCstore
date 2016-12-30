@@ -35,7 +35,22 @@ namespace MVCstore.Controllers
             List<Laptop> lapList = lapdal.laptops.ToList();
             return Json(lapList, JsonRequestBehavior.AllowGet);
         }
+        public EmptyResult buyProduct(int quantity, string model, int price)
+        {
+            Order order = new Order();
+            OrderDal orddal = new OrderDal();
 
+            //order.OrdID = 1;
+            order.CustID = "1";
+            order.Model = model;
+            order.Price = price;
+            order.Quantity = quantity;
+
+            orddal.orders.Add(order);
+            orddal.SaveChanges();
+
+            return new EmptyResult();
+        }
         public ActionResult showProducts()
         {
             List<Product> productList = new ProductDal().products.ToList();

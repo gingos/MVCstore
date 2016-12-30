@@ -159,6 +159,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="DAL\LaptopDal.cs" />
+    <Compile Include="DAL\OrderDal.cs" />
     <Compile Include="DAL\PCDal.cs" />
     <Compile Include="DAL\PrinterDal.cs" />
     <Compile Include="DAL\ProductDal.cs" />
@@ -166,6 +167,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Laptop.cs" />
+    <Compile Include="Models\Order.cs" />
     <Compile Include="Models\PC.cs" />
     <Compile Include="Models\Printer.cs" />
     <Compile Include="Models\Product.cs" />
