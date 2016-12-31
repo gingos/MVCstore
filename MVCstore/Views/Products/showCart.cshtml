@@ -1,0 +1,104 @@
+﻿@model MVCstore.ModelView.OrderViewModel
+@using MVCstore.Models
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>showCart</title>
+</head>
+<body>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <div>
+        <span style="color:blue">Your Shopping Cart:</span><br />
+    </div>
+    <div> 
+        <table id="ordersTable">
+            <tr>
+                <td>Order ID</td>
+                <td>Customer ID</td>
+                <td>Model</td>
+                <td>Quantity</td>
+                <td>Price</td>
+            </tr>
+            @foreach(Order ord in Model.orderList)
+            {
+                <tr>
+                    <td>@ord.OrdID</td>
+                    <td>@ord.CustID</td>
+                    <td>@ord.Model</td>
+                    <td>@ord.Quantity</td>
+                    <td>@ord.Price</td>
+                </tr>
+            }
+        </table>
+        <br />
+        <button id="sumTable_bt" onclick="checkOut()"> Check Out!</button>
+        <button id="shopMore_bt" onclick="location.href='@Url.Action("showProducts", "Products")';" >Go shop some more!</Button>
+        <button id="Home_bt" onclick="location.href='@Url.Action("Index", "Home")';" >Home</button>
+    </div>
+
+    <script language="javascript">
+        debugger
+        $(document).ready(function() {
+            //keep only one document.ready if possible and wrap all the js code in that
+            hideButtonIfEmpty();
+        });
+
+        function hideButtonIfEmpty() {
+            var x = document.getElementById("ordersTable").rows.length;
+            if (x == 1) {
+                $("#sumTable_bt").hide();
+            } else {
+                $("#sumTable_bt").show();
+            }
+        }
+        function checkOut() {
+            if (isInStock()){
+                printReceipt();
+            }
+        }
+
+        function isInStock() {
+            //TODO: check database, return true if stock - request > 0
+            return true;
+        }
+        function printReceipt() {
+            sumHtmlTable();
+            addShippedDate(1);
+            refresh();
+        }
+        function sumHtmlTable() {
+            var table = document.getElementById('ordersTable');
+            var sum = 0;
+            for (var r = 1, n = table.rows.length; r < n; r++) {
+                var rowSum = table.rows[r].cells[3].innerHTML * table.rows[r].cells[4].innerHTML;
+                sum += rowSum;
+            }
+            alert('Total sum is ' + sum + '\n' + 'Receipt will be send via an owl');
+
+        }
+        function addShippedDate(cID) {
+            var url = '@Url.Action("updateShipment", "Products")';
+            var data = { custID: cID };
+            $.post(url, data, null);
+        }
+        function refresh() {
+            var url = '@Url.Action("showCart", "Products")';
+            $.get(url, null, null);
+        }
+
+
+
+    </script>
+
+        
+</body>
+</html>

@@ -11,12 +11,21 @@ namespace MVCstore.Controllers
 {
     public class ProductsController : Controller
     {
+        OrderDal orddal;
+        OrderViewModel ovm;
+        public ProductsController()
+        {
+            orddal = new OrderDal();
+            ovm = new OrderViewModel();
+        }
+
         // GET: Products
         public ActionResult Index()
         {
             return View();
         }
 
+        // Products View
         public ActionResult getPCbyJSON()
         {
             PCDal pcdal = new PCDal();
@@ -35,24 +44,10 @@ namespace MVCstore.Controllers
             List<Laptop> lapList = lapdal.laptops.ToList();
             return Json(lapList, JsonRequestBehavior.AllowGet);
         }
-        public EmptyResult buyProduct(int quantity, string model, int price)
-        {
-            Order order = new Order();
-            OrderDal orddal = new OrderDal();
-
-            //order.OrdID = 1;
-            order.CustID = "1";
-            order.Model = model;
-            order.Price = price;
-            order.Quantity = quantity;
-
-            orddal.orders.Add(order);
-            orddal.SaveChanges();
-
-            return new EmptyResult();
-        }
         public ActionResult showProducts()
         {
+            #region wrap all products in single model view (deprecated)
+            /*
             List<Product> productList = new ProductDal().products.ToList();
             List<PC> pcList = new PCDal().PCs.ToList();
             List<Printer> printerList = new PrinterDal().printers.ToList();
@@ -71,8 +66,46 @@ namespace MVCstore.Controllers
             pvm.pcList = pcList;
             pvm.printerList = printerList;
             pvm.laptopList = laptopList;
-
             return View(pvm);
+            */
+            #endregion
+            return View();
+        }
+        public EmptyResult addToCart(int quantity, string model, int price)
+        {
+            Order order = new Order();
+            //OrderDal orddal = new OrderDal();
+
+            //order.OrdID = 1;
+            order.CustID = "1";
+            order.Model = model;
+            order.Price = price;
+            order.Quantity = quantity;
+
+            orddal.orders.Add(order);
+            orddal.SaveChanges();
+
+            return new EmptyResult();
+        }
+
+        // CartView
+        public ActionResult showCart()
+        {
+            ovm.order = new Order();
+            ovm.orderList = orddal.orders.Where(o=> o.shippedDate == null).ToList<Order>();
+            return View(ovm);
+        }
+        public EmptyResult updateShipment(string custID)
+        {
+            List<Order> l = orddal.orders.Where(o => o.CustID.Equals(custID)).ToList();
+            l.ForEach(o => o.shippedDate = DateTime.Today);
+            orddal.SaveChanges();
+
+            //ovm.order = new Order();
+            //ovm.orderList = orddal.orders.Where(o => o.shippedDate == null).ToList<Order>();
+            //ovm.orderList = orddal.orders.ToList<Order>();
+            //return View("showCart", ovm);
+            return new EmptyResult();
         }
     }
 }

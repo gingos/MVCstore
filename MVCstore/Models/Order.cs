@@ -17,5 +17,6 @@ namespace MVCstore.Models
         public string Model { get; set; }
         public int Quantity { get; set; }
         public int Price { get; set; }
+        public DateTime? shippedDate { get; set; }
     }
 }

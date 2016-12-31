@@ -6,9 +6,9 @@ using System.Web;
 
 namespace MVCstore.ModelView
 {
-    public class PCViewModel
+    public class OrderViewModel
     {
-        public PC pc { get; set; }
-        public List<PC> pcList { get; set; }
+        public Order order { get; set; }
+        public List<Order> orderList { get; set; }
     }
 }

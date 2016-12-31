@@ -1,6 +1,4 @@
-﻿@model MVCstore.ModelView.ProductViewModel
-@using MVCstore.Models
-
+﻿
 @{
     Layout = null;
 }
@@ -12,10 +10,12 @@
     <meta name="viewport" content="width=device-width" />
     <title>showProducts</title>
 </head>
-<script src="~/Scripts/jquery-1.10.2.js"></script>
-<script src="~/Scripts/jquery.validate.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
 <body>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
     <div> 
         <span style="color:blue" >Look at all these PRODUCTS:</span><br />
     </div>
@@ -27,7 +27,9 @@
     <div id="status"></div>
     <div>
         <table id="productsTable"></table>
-
+    </div>
+    <div class="col-md-4">
+        <p><a class="btn btn-default" href="@Url.Action("showCart", "Products")">See Shopping Cart & Checkout &raquo;</a></p>
     </div>
 
     <script lang="javascript">
@@ -46,7 +48,9 @@
                 "<td>Speed</td>" +
                 "<td>RAM</td>" +
                 "<td>HD</td>" +
-                "<td>Price</td>" + "</tr>";
+                "<td>Price</td>" +
+                "<td>Add?</td>" +
+                "</tr>";
             tbl.append(header);
             for (k = 0; k < pcList.length; k++) {
                 var row = "<tr>" +
@@ -54,7 +58,10 @@
                     "<td>" + pcList[k].Speed + "</td>" +
                     "<td>" + pcList[k].RAM + "</td>" +
                     "<td>" + pcList[k].HD + "</td>" +
-                    "<td>" + pcList[k].Price + "</td>" + "</tr>"
+                    "<td>" + pcList[k].Price + "</td>" +
+                    "<td><input type='text' id='pc_count_" + k + "' value='0'/></div></td>" +
+                    "<td><input type='button' id='pc_bt_" + k + "' value='Add to Cart' onclick='addToCart($(\"#pc_count_" + k + "\").val()," + pcList[k].Model + "," + pcList[k].Price + ")'></td>" +
+                    "</tr>"
                 tbl.append(row);
             }
             
@@ -68,14 +75,19 @@
                 "<td>Model</td>" +
                 "<td>Color</td>" +
                 "<td>Type</td>" +
-                "<td>Price</td>" + "</tr>";
+                "<td>Price</td>" +
+                "<td>Add?</td>" +
+                "</tr>";
             tbl.append(header);
             for (k = 0; k < printerList.length; k++) {
                 var row = "<tr>" +
                     "<td>" + printerList[k].Model + "</td>" +
                     "<td>" + printerList[k].Color + "</td>" +
                     "<td>" + printerList[k].Type + "</td>" +
-                    "<td>" + printerList[k].Price + "</td>" + "</tr>"
+                    "<td>" + printerList[k].Price + "</td>" +
+                    "<td><input type='text' id='pri_count_" + k + "' value='0'/></div></td>" +
+                    "<td><input type='button' id='pri_bt_" + k + "' value='Add to Cart' onclick='addToCart($(\"#pri_count_" + k + "\").val()," + printerList[k].Model + "," + printerList[k].Price + ")'></td>" +
+                    "</tr>"
                 tbl.append(row);
             }
 
@@ -92,7 +104,8 @@
                 "<td>HD</td>" +
                 "<td>Screen</td>" +
                 "<td>Price</td>" +
-                "<td>Add?</td>" +"</tr>";
+                "<td>Add?</td>" +
+                "</tr>";
             tbl.append(header);
             for (k = 0; k < laptopList.length; k++) {
                 var row = "<tr>" +
@@ -103,7 +116,7 @@
                     "<td>" + laptopList[k].Screen + "</td>" +
                     "<td>" + laptopList[k].Price + "</td> "+
                     "<td><input type='text' id='lap_count_" +k +"' value='0'/></div></td>" +
-                    "<td><input type='button' id='lap_bt_" + k + "' value='Add to Cart' onclick='buyLaptop($(\"#lap_count_" + k +"\").val()," + laptopList[k].Model + "," + laptopList[k].Price + ")'></td>" +
+                    "<td><input type='button' id='lap_bt_" + k + "' value='Add to Cart' onclick='addToCart($(\"#lap_count_" + k +"\").val()," + laptopList[k].Model + "," + laptopList[k].Price + ")'></td>" +
                     "</tr>";
 
                 tbl.append(row);
@@ -113,17 +126,17 @@
 
         }
 
-        function buyLaptop(quantity, model, price) {
-            debugger
+        function addToCart(quantity, model, price) {
             if (quantity == 0) {
                 alert('please specify quantity');
                 return;
             }
-            alert('buy:' + quantity + ' of model NO ' + model + 'for ' + price + '$');
-            var url = '@Url.Action("buyProduct", "Products")';
+            //TODO: add confirmation box
+            //consider using button->"this" for addToCart
+            alert('buy: ' + quantity + ' of model # ' + model + ' for ' + price + '$');
+            var url = '@Url.Action("addToCart", "Products")';
             var data = { quantity: quantity, model: model, price: price };
             $.post(url, data, null);
-
         }
     </script>
 </body>
