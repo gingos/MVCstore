@@ -158,6 +158,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\StockController.cs" />
     <Compile Include="DAL\LaptopDal.cs" />
     <Compile Include="DAL\OrderDal.cs" />
     <Compile Include="DAL\PCDal.cs" />
@@ -215,6 +216,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Products\showProducts.cshtml" />
     <Content Include="Views\Products\showCart.cshtml" />
+    <Content Include="Views\Stock\showStock.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

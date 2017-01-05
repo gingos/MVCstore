@@ -74,6 +74,7 @@ namespace MVCstore.Controllers
             #endregion
             return View();
         }
+        /*
         public EmptyResult addToCart(int quantity, string model, int price)
         {
             Order order = new Order();
@@ -88,7 +89,8 @@ namespace MVCstore.Controllers
 
             return new EmptyResult();
         }
-
+        */
+        
         /// <summary>
         /// checkStock: function returns product quantity
         /// </summary>

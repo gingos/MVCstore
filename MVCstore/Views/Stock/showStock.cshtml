@@ -1,0 +1,70 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>showStock</title>
+</head>
+<body>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+    <div>
+        <span style="color:blue">Better restock, winter is coming:</span><br />
+        <div>
+            <input id="allStock_bt" type="button" value="Show All Products" onclick="getJSON('getProductsbyJSON', getAll)" />
+            <input id="zeroStock_bt" type="button" value="Show 0-Quantity Products" onclick="getJSON('getZeroQuantityByJSON', getZero)" />
+        </div>
+        <div id="status"></div>
+        <div>
+            <table id="stockTable"></table>
+        </div>
+        <br />
+    </div>
+
+    <script language="javascript">
+        function getJSON(action, getStock) {
+            $("#status").text("Loading Table...");
+            $.get(action, null, getStock);
+        }
+
+        function getAll(stock) {
+            $("#stockTable").find("tr").remove();
+            var tbl = $("#stockTable");
+            var header = "<tr>" +
+                "<td>Header</td>" +
+                "<td>Header</td>" +
+                "<td>Header</td>" +
+                "<td>Header</td>" +
+                "<td>Header</td>" +
+                "<td>Header?</td>" +
+                "</tr>";
+            tbl.append(header);
+            for (k = 0; k < stock.length; k++) {
+                var row = "<tr id= 'all_row_" + k + "'>" +
+                    "<td>" + stock[k].Model + "</td>" +
+                    "<td>" + stock[k].Speed + "</td>" +
+                    "<td>" + stock[k].RAM + "</td>" +
+                    "<td>" + stock[k].HD + "</td>" +
+                    "<td>" + stock[k].Price + "</td>" +
+                    "<td><input type='text' id='all_count_" + k + "' value='0'/></div></td>" +
+                    "<td><input type='button' id='all_bt_" + k + "' value='Add to Cart' onclick=\"purchaseProcess($(\'#pc_count_" + k + "\').val()," + pcList[k].Model + "," + pcList[k].Price + "," + "\'stock_txt_" + k + "\')\"></td>" +
+                    //"<td><input type='button' id='pc_bt_" + k + "' value='Add to Cart' onclick=\"addToCart(\'pc_row_" + k + "\')\"></td>" +                                              `
+                    "<td id='stock_txt_" + k + "'></td>" +
+                    "</tr>"
+                tbl.append(row);
+            }
+
+            $("#status").text("")
+
+        }
+
+    </script>
+</body>
+</html>

@@ -71,7 +71,6 @@
             }
 
             $("#status").text("")
-
         }
         // Code Printer table in html : (JSON list) printerList retrieved from action "getPrinterbyJSON"
         function getPrinter(printerList) {
@@ -147,7 +146,6 @@
             //addedQuantityData: Order object
             function (orderData) {
 
-                alert("q wanted: " + wantedQuantity + "\n" + "q purchased " + orderData.Quantity);
                 if (orderData.Quantity == wantedQuantity) 
                     ok.innerHTML = "product successfully added to cart!";
                 else if (orderData.Quantity > 0 && orderData.Quantity < wantedQuantity )

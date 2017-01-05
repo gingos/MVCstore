@@ -15,14 +15,14 @@ namespace MVCstore.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Some wise chinese proverb about life.";
 
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "How to contact us, in case Google comes knocking.";
 
             return View();
         }
