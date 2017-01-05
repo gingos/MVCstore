@@ -21,7 +21,7 @@
     </div>
     <div> 
         <table id="ordersTable">
-            <tr>
+            <tr id="header">
                 <td>Order ID</td>
                 <td>Customer ID</td>
                 <td>Model</td>
@@ -52,6 +52,7 @@
             hideButtonIfEmpty();
         });
 
+        // only shows "cash out!" button if has unordered products
         function hideButtonIfEmpty() {
             var x = document.getElementById("ordersTable").rows.length;
             if (x == 1) {
@@ -60,21 +61,22 @@
                 $("#sumTable_bt").show();
             }
         }
+        // begin check out proccess: confirm quantity and add to cart
         function checkOut() {
-            if (isInStock()){
+            var r = confirm("Confirm Check Out?");
+            if (r == true) {
                 printReceipt();
+                //TODO: not showing refreshed table (should be empty after checkout)
+                refresh();   
             }
         }
-
-        function isInStock() {
-            //TODO: check database, return true if stock - request > 0
-            return true;
-        }
+        // print total order sum and add shipping date
         function printReceipt() {
             sumHtmlTable();
             addShippedDate(1);
-            refresh();
+            
         }
+        // sum all columns and print
         function sumHtmlTable() {
             var table = document.getElementById('ordersTable');
             var sum = 0;
@@ -85,11 +87,13 @@
             alert('Total sum is ' + sum + '\n' + 'Receipt will be send via an owl');
 
         }
+        // add today's date to ORDERS table, hence mark them as confirmed
         function addShippedDate(cID) {
             var url = '@Url.Action("updateShipment", "Products")';
             var data = { custID: cID };
             $.post(url, data, null);
         }
+        // not working: refresh table
         function refresh() {
             var url = '@Url.Action("showCart", "Products")';
             $.get(url, null, null);

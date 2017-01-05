@@ -28,18 +28,21 @@
     <div>
         <table id="productsTable"></table>
     </div>
-    <div class="col-md-4">
-        <p><a class="btn btn-default" href="@Url.Action("showCart", "Products")">See Shopping Cart & Checkout &raquo;</a></p>
-    </div>
+    <br />
+    <input id="toCart_bt" type="button" value="See Shopping Cart & Checkout &raquo;" onclick="location.href='@Url.Action("showCart", "Products")';" />
 
     <script lang="javascript">
-        
 
+        /* Choose what product's JSON to get
+         (string) action  determines action name on ProductsController
+         (function) getProduct determines retrival functions in javascript
+         */
         function getJSON(action, getProduct) {
             $("#status").text("Loading Table...");
             $.get(action, null, getProduct);
         }
 
+        // Code PC table in html : (JSON list) pcList retrieved from action "getPCbyJSON"
         function getPC(pcList) {
             $("#productsTable").find("tr").remove();
             var tbl = $("#productsTable");
@@ -53,21 +56,24 @@
                 "</tr>";
             tbl.append(header);
             for (k = 0; k < pcList.length; k++) {
-                var row = "<tr>" +
+                var row = "<tr id= 'pc_row_" + k +"'>" +
                     "<td>" + pcList[k].Model + "</td>" +
                     "<td>" + pcList[k].Speed + "</td>" +
                     "<td>" + pcList[k].RAM + "</td>" +
                     "<td>" + pcList[k].HD + "</td>" +
                     "<td>" + pcList[k].Price + "</td>" +
                     "<td><input type='text' id='pc_count_" + k + "' value='0'/></div></td>" +
-                    "<td><input type='button' id='pc_bt_" + k + "' value='Add to Cart' onclick='addToCart($(\"#pc_count_" + k + "\").val()," + pcList[k].Model + "," + pcList[k].Price + ")'></td>" +
+                    "<td><input type='button' id='pc_bt_" + k + "' value='Add to Cart' onclick=\"purchaseProcess($(\'#pc_count_" + k + "\').val()," + pcList[k].Model + "," + pcList[k].Price + "," +"\'stock_txt_" +k + "\')\"></td>" +
+                    //"<td><input type='button' id='pc_bt_" + k + "' value='Add to Cart' onclick=\"addToCart(\'pc_row_" + k + "\')\"></td>" +                                              `
+                    "<td id='stock_txt_" + k + "'></td>" +
                     "</tr>"
                 tbl.append(row);
             }
-            
+
             $("#status").text("")
 
         }
+        // Code Printer table in html : (JSON list) printerList retrieved from action "getPrinterbyJSON"
         function getPrinter(printerList) {
             $("#productsTable").find("tr").remove();
             var tbl = $("#productsTable");
@@ -94,6 +100,7 @@
             $("#status").text("")
 
         }
+        // Code laptop table in html : (JSON list) laptopList retrieved from action "getLaptopByJSON"
         function getLaptop(laptopList) {
             $("#productsTable").find("tr").remove();
             var tbl = $("#productsTable");
@@ -126,7 +133,64 @@
 
         }
 
-        function addToCart(quantity, model, price) {
+        function subtractFromStock(model, wantedQuantity, price, label) {
+            //should probably move this one and move the purchase part to "show cart"
+            //build a list of desired products, send them all to "show cart"
+            //and apply this function on each item on the list
+            var ok = document.getElementById(label);
+            alert("in function: subtract from stock");
+            var url = '@Url.Action("checkStock", "Products")';
+            var stockData = { quantityToBuy: wantedQuantity, model: model, price: price };
+            ok.innerHTML = "checking if product is in stock... ";
+            //send JSON to server
+            $.get(url, stockData,
+            //addedQuantityData: Order object
+            function (orderData) {
+
+                alert("q wanted: " + wantedQuantity + "\n" + "q purchased " + orderData.Quantity);
+                if (orderData.Quantity == wantedQuantity) 
+                    ok.innerHTML = "product successfully added to cart!";
+                else if (orderData.Quantity > 0 && orderData.Quantity < wantedQuantity )
+                    ok.innerHTML = "stock was not enough, added to cart only " + orderData.Quantity + "items";
+                else if (orderData.Quantity == 0)
+                    ok.innerHTML = "sorry, item was not in stock, try again soon";
+
+                showButtonAfterPruchase();
+            }
+            );
+        } 
+        
+        //disable "show cart" button
+        //subtract quantity from products (product dal)
+        //add (available) to cart (order dal)
+        //      -- add (return): notify quantity label
+        //      -- enable "show cart" button
+        function purchaseProcess(quantity, model, price, label) {
+            if (quantity == 0) {
+                alert('please specify quantity');
+                return;
+            }
+
+            hideButtoWhilePurchase();
+            // A-sync JSON query
+            subtractFromStock(model, quantity, price, label);
+            
+        }
+
+        function hideButtoWhilePurchase() {     
+                $("#toCart_bt").hide();
+        }
+        function showButtonAfterPruchase() {
+            $("#toCart_bt").show();
+        }
+
+        @*function addToCart(row_id) {
+            alert(row_id);
+            var row = document.getElementById(row_id).cells;
+            //quantity not working
+            var quantity = row[5].toString();
+            var model = row[0].innerHTML;
+            var price = row[4].innerHTML;
             if (quantity == 0) {
                 alert('please specify quantity');
                 return;
@@ -134,10 +198,13 @@
             //TODO: add confirmation box
             //consider using button->"this" for addToCart
             alert('buy: ' + quantity + ' of model # ' + model + ' for ' + price + '$');
-            var url = '@Url.Action("addToCart", "Products")';
-            var data = { quantity: quantity, model: model, price: price };
-            $.post(url, data, null);
-        }
+            if (isInStock(model, quantity)) {
+                var url = '@Url.Action("addToCart", "Products")';
+                var data = { quantity: quantity, model: model, price: price };
+                $.post(url, data, null);
+            }
+        }*@
+        
     </script>
 </body>
 </html>

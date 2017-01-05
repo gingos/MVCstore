@@ -12,11 +12,14 @@ namespace MVCstore.Controllers
     public class ProductsController : Controller
     {
         OrderDal orddal;
+        ProductDal proddal;
         OrderViewModel ovm;
+        
         public ProductsController()
         {
             orddal = new OrderDal();
             ovm = new OrderViewModel();
+            proddal = new ProductDal();
         }
 
         // GET: Products
@@ -74,9 +77,7 @@ namespace MVCstore.Controllers
         public EmptyResult addToCart(int quantity, string model, int price)
         {
             Order order = new Order();
-            //OrderDal orddal = new OrderDal();
 
-            //order.OrdID = 1;
             order.CustID = "1";
             order.Model = model;
             order.Price = price;
@@ -88,6 +89,45 @@ namespace MVCstore.Controllers
             return new EmptyResult();
         }
 
+        /// <summary>
+        /// checkStock: function returns product quantity
+        /// </summary>
+        /// function checks if products is in stock, subtracts
+        ///     needed quantity from stock and updates orders table
+        /// <param name="quantityToBuy"></param>
+        /// <param name="model"></param>
+        /// <param name="price"></param>
+        /// <returns>order object: model, price, purchased quantity</returns>
+        public ActionResult checkStock(int quantityToBuy, string model, int price)
+        {
+            Product prod = proddal.products.First(p => p.Model.Equals (model));
+
+            Order order = new Order();
+            order.CustID = "1";
+            order.Model = model;
+            order.Price = price;
+
+            if (prod.Quantity - quantityToBuy >= 0)
+            {
+                prod.Quantity -= quantityToBuy;
+                order.Quantity = quantityToBuy;
+            }
+            else
+            {
+                order.Quantity = prod.Quantity;
+                prod.Quantity = 0;
+            }
+
+            proddal.SaveChanges();
+            if (order.Quantity > 0)
+            {
+                orddal.orders.Add(order);
+                orddal.SaveChanges();
+            }
+            
+            return Json(order, JsonRequestBehavior.AllowGet);
+        }
+        
         // CartView
         public ActionResult showCart()
         {
@@ -97,8 +137,8 @@ namespace MVCstore.Controllers
         }
         public EmptyResult updateShipment(string custID)
         {
-            List<Order> l = orddal.orders.Where(o => o.CustID.Equals(custID)).ToList();
-            l.ForEach(o => o.shippedDate = DateTime.Today);
+            List<Order> olist = orddal.orders.Where(o => o.CustID.Equals(custID)).ToList();
+            olist.ForEach(o => o.shippedDate = DateTime.Today);
             orddal.SaveChanges();
 
             //ovm.order = new Order();

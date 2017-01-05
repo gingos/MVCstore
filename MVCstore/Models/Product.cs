@@ -8,11 +8,11 @@ namespace MVCstore.Models
 {
     public class Product
     {
-        public string Maker { get; set; }
-
         [Key]
         public string Model { get; set; }
 
+        public string Maker { get; set; }
+        public int Quantity { get; set; }
         public string Type { get; set; }
     }
 }
