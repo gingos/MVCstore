@@ -164,6 +164,7 @@
     <Compile Include="DAL\PCDal.cs" />
     <Compile Include="DAL\PrinterDal.cs" />
     <Compile Include="DAL\ProductDal.cs" />
+    <Compile Include="DAL\stockOrderDal.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -172,6 +173,7 @@
     <Compile Include="Models\PC.cs" />
     <Compile Include="Models\Printer.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\StockRequest.cs" />
     <Compile Include="ModelView\OrderViewModel.cs" />
     <Compile Include="ModelView\ProductViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -188,6 +190,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="ClassDiagram1.cd" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

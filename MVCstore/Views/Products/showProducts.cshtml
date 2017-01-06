@@ -73,6 +73,7 @@
             $("#status").text("")
         }
         // Code Printer table in html : (JSON list) printerList retrieved from action "getPrinterbyJSON"
+        // TODO: test functionality, copy past from pc
         function getPrinter(printerList) {
             $("#productsTable").find("tr").remove();
             var tbl = $("#productsTable");
@@ -90,8 +91,9 @@
                     "<td>" + printerList[k].Color + "</td>" +
                     "<td>" + printerList[k].Type + "</td>" +
                     "<td>" + printerList[k].Price + "</td>" +
-                    "<td><input type='text' id='pri_count_" + k + "' value='0'/></div></td>" +
-                    "<td><input type='button' id='pri_bt_" + k + "' value='Add to Cart' onclick='addToCart($(\"#pri_count_" + k + "\").val()," + printerList[k].Model + "," + printerList[k].Price + ")'></td>" +
+                    "<td><input type='text' id='printer_count_" + k + "' value='0'/></div></td>" +
+                    "<td><input type='button' id='printer_bt_" + k + "' value='Add to Cart' onclick=\"purchaseProcess($(\'#printer_count_" + k + "\').val()," + printerList[k].Model + "," + printerList[k].Price + "," + "\'stock_txt_" + k + "\')\"></td>" +
+                    "<td id='stock_txt_" + k + "'></td>" +
                     "</tr>"
                 tbl.append(row);
             }
@@ -100,6 +102,7 @@
 
         }
         // Code laptop table in html : (JSON list) laptopList retrieved from action "getLaptopByJSON"
+        // TODO: test functionality, copy past from pc
         function getLaptop(laptopList) {
             $("#productsTable").find("tr").remove();
             var tbl = $("#productsTable");
@@ -121,8 +124,9 @@
                     "<td>" + laptopList[k].HD + "</td>" +
                     "<td>" + laptopList[k].Screen + "</td>" +
                     "<td>" + laptopList[k].Price + "</td> "+
-                    "<td><input type='text' id='lap_count_" +k +"' value='0'/></div></td>" +
-                    "<td><input type='button' id='lap_bt_" + k + "' value='Add to Cart' onclick='addToCart($(\"#lap_count_" + k +"\").val()," + laptopList[k].Model + "," + laptopList[k].Price + ")'></td>" +
+                    "<td><input type='text' id='laptop_count_" + k + "' value='0'/></div></td>" +
+                    "<td><input type='button' id='laptop_bt_" + k + "' value='Add to Cart' onclick=\"purchaseProcess($(\'#laptop_" + k + "\').val()," + laptopList[k].Model + "," + laptopList[k].Price + "," + "\'stock_txt_" + k + "\')\"></td>" +
+                    "<td id='stock_txt_" + k + "'></td>" +
                     "</tr>";
 
                 tbl.append(row);
