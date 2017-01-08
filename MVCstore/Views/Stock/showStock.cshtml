@@ -9,6 +9,57 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>showStock</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+            border: 2px solid black;
+        }
+
+        thead, tbody, tr, td, th {
+            display: block;
+        }
+
+        tr:after {
+            content: ' ';
+            display: block;
+            visibility: hidden;
+            clear: both;
+        }
+
+        thead th {
+            height: 30px;
+            line-height: 30px;
+            /*text-align: left;*/
+        }
+
+        tbody {
+            height: 300px;
+            overflow-y: auto;
+        }
+
+        thead {
+            /* fallback */
+            width: 97%;
+            /* minus scroll bar width */
+            width: calc(100% - 17px);
+        }
+
+        tbody {
+            border-top: 2px solid black;
+        }
+
+        tbody td, thead th {
+            width: 13.7%; /*was 19.2*/
+            float: left;
+            border-right: 1px solid black;
+        }
+
+        tbody td:last-child, thead th:last-child {
+            border-right: none;
+        }
+    </style>
 </head>
 <body>
     <script src="~/Scripts/jquery-1.10.2.js"></script>
@@ -34,23 +85,34 @@
             $("#status").text("Loading Table...");
             $.get(action, null, getStock);
         }
+        //TODO: 
+        // 2. fit big table into smaller frame
+        // 3. write "begin purchase function" tree
+        // 4. apply above to "0-stock" table
+
 
         // Code products table in html : (JSON list) prodList retrieved from action "getProductsByJSON"
         function getAll(stock) {
-            debugger;
             $("#stockTable").find("tr").remove();
             var tbl = $("#stockTable");
-            var header = "<tr>" +
-                "<td>Model</td>" +
-                "<td>Maker</td>" +
-                "<td>Quantity (In Stock)</td>" +
-                "<td>Type</td>" +
-                "<td>Order More?</td>" +
-                "<td></td>" +
-                "</tr>";
+            var header =
+                "<thead>" +
+                    "<tr>" +
+                        "<td>Model</td>" +
+                        "<td>Maker</td>" +
+                        "<td>In Stock</td>" +
+                        "<td>Type</td>" +
+                        "<td>Order More?</td>" +
+                        "<td></td>" +
+                        "<td></td>" +
+                    "</tr>" +
+                 "</thead>";
             tbl.append(header);
+            tbl.append("<tbody>")
             for (k = 0; k < stock.length; k++) {
-                var row = "<tr id= 'all_row_" + k + "'>" +
+                var row =
+                    
+                    "<tr id= 'all_row_" + k + "'>" +
                     "<td>" + stock[k].Model + "</td>" +
                     "<td>" + stock[k].Maker + "</td>" +
                     "<td>" + stock[k].Quantity + "</td>" +
@@ -62,7 +124,7 @@
                     "</tr>"
                 tbl.append(row);
             }
-
+            tbl.append("</tbody>")
             $("#status").text("")
 
         }
