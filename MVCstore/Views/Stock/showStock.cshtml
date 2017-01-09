@@ -19,16 +19,19 @@
 
     <div>
         <span style="color:blue">Better restock, winter is coming:</span><br />
-        <div>
-            <input id="allStock_bt" type="button" value="Show All Products" onclick="getJSON('getProductsByJSON', getAll)" />
-            <input id="zeroStock_bt" type="button" value="Show 0-Quantity Products" onclick="getJSON('getZeroQuantityByJSON', getZero)" />
-        </div>
-        <div id="status"></div>
-        <div>
-            <table class="scroll" id="stockTable"></table>
-        </div>
-        <br />
     </div>
+    <div>
+        <input id="allStock_bt" type="button" value="Show All Products" onclick="getJSON('getProductsByJSON', getAll)" />
+        <input id="zeroStock_bt" type="button" value="Show 0-Quantity Products" onclick="getJSON('getZeroQuantityByJSON', getZero)" />
+    </div>
+    <div id="status"></div>
+    <div>
+        <table class="scroll" id="stockTable"></table>
+    </div>
+    <br />
+    <input id="toConfirm_bt" type="button" value="See Table of all Stock Requests  &raquo;" onclick="location.href='@Url.Action("showConfirm", "Stock")';" />
+
+    
 
     <script language="javascript">
         // Change the selector if needed
@@ -52,20 +55,18 @@
     </script>
 
     <script language="javascript">
-        
+
         function getJSON(action, getStock) {
             $("#status").text("Loading Table...");
             $.get(action, null, getStock);
         }
-        //TODO: 
+        //TODO:
         // 3. write "begin purchase function" tree
         // 4. apply above to "0-stock" table
 
 
         // Code products table in html : (JSON list) prodList retrieved from action "getProductsByJSON"
         function getAll(stock) {
-            
-            
             $("#stockTable").find("tbody").remove();
             $("#stockTable").find("thead").remove();
             var tbl = $("#stockTable");
@@ -78,12 +79,9 @@
                         "<th>Type</th>" +
                         "<th>Order More?</th>" +
                         "<th></th>" +
-                        "<th></th>" +
                     "</tr>" +
                  "</thead>";
             tbl.append(header);
-            
-
             tbl.append("<tbody>")
             for (k = 0; k < stock.length; k++) {
                 var row =
@@ -93,16 +91,53 @@
                     "<td>" + stock[k].Quantity + "</td>" +
                     "<td>" + stock[k].Type + "</td>" +
                     "<td><input type='text' id='all_count_" + k + "' value='0'/></td>" +
-                    "<td><input type='button' id='all_bt_" + k + "' value='Add to Cart' onclick=\"purchaseProcess($(\'#all_count_" + k + "\').val()," + stock[k].Model + "," + stock[k].Price + "," + "\'stock_txt_" + k + "\')\"></td>" +
+                    "<td><input width='1000' type='button' id='all_bt_" + k + "' value='Restock' onclick=\"purchaseProcess($(\'#all_count_" + k + "\').val()," + stock[k].Model + ","  + "\'stock_txt_" + k + "\')\"></td>" +
                     //"<td><input type='button' id='pc_bt_" + k + "' value='Add to Cart' onclick=\"addToCart(\'pc_row_" + k + "\')\"></td>" +                                              `
-                    "<td id='stock_txt_" + k + "'>Stock Text</td>" +
+                    "<td id='stock_txt_" + k + "'></td>" +
                     "</tr>"
                 tbl.append(row);
             }
              tbl.append("</tbody>")
-            
+
             $("#status").text("")
 
+        }
+
+        function purchaseProcess(quantity, model, label) {
+            if (quantity <= 0) {
+                alert('please specify a positive quantity');
+                return;
+            }
+
+            hideButtoWhilePurchase();
+            // A-sync JSON query
+            addRestockRequest(quantity, model, label);
+        }
+
+        function hideButtoWhilePurchase() {
+            $("#toConfirm_bt").hide();
+        }
+        function showButtonAfterPruchase() {
+            $("#toConfirm_bt").show();
+        }
+        function addRestockRequest(Quantity, model, label) {
+            //should probably move this one and move the purchase part to "show cart"
+            //build a list of desired products, send them all to "show cart"
+            //and apply this function on each item on the list
+            
+            var ok = document.getElementById(label);
+            var url = '@Url.Action("restockRequest", "Stock")';
+            var requestData = { quantityToAdd: Quantity, model: model };
+            ok.innerHTML = "updating product order request... ";
+            //send JSON to server
+            $.get(url, requestData,
+            //addedQuantityData: Order object
+            function () {
+                alert('product order placed successfully')
+                ok.innerHTML = "";
+                showButtonAfterPruchase();
+            }
+            );
         }
 
     </script>

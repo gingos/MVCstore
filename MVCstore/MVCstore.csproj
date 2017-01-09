@@ -164,7 +164,7 @@
     <Compile Include="DAL\PCDal.cs" />
     <Compile Include="DAL\PrinterDal.cs" />
     <Compile Include="DAL\ProductDal.cs" />
-    <Compile Include="DAL\stockOrderDal.cs" />
+    <Compile Include="DAL\stockRequestDal.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -176,6 +176,7 @@
     <Compile Include="Models\StockRequest.cs" />
     <Compile Include="ModelView\OrderViewModel.cs" />
     <Compile Include="ModelView\ProductViewModel.cs" />
+    <Compile Include="ModelView\RestockViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
