@@ -106,7 +106,9 @@
 
         // Code products table in html : (JSON list) prodList retrieved from action "getProductsByJSON"
         function getAll(stock) {
-            $("#stockTable").find("tr").remove();
+            debugger;
+            //$("#stockTable").find("thead").remove();
+            $("#stockTable tbody").remove();
             var tbl = $("#stockTable");
             var header =
                 "<thead>" +
