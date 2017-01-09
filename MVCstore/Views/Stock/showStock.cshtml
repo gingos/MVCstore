@@ -9,49 +9,8 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>showStock</title>
-    <style>
-        table.scroll {
-            width: 85%;  
-            /* Optional */
-            /* border-collapse: collapse; */
-            border-spacing: 5px;
-            border: 2px solid black;
-        }
-
-            table.scroll tbody,
-            table.scroll thead {
-                display: block;
-            }
-
-        thead tr th {
-            height: 30px;
-            line-height: 30px;
-            text-align: center; 
-        }
-
-        table.scroll tbody {
-            height: 100px;
-            overflow-y: auto;
-            overflow-x: hidden;
-        }
-
-        tbody {
-            border-top: 2px solid black;
-        }
-
-            tbody td,
-            thead th {
-                width: 10%; 
-                /* Optional */
-                border-right: 1px solid black;
-                /* white-space: nowrap; */
-            }
-
-                tbody td:last-child,
-                thead th:last-child {
-                    border-right: none;
-                }
-    </style>
+    <link href="@Url.Content("~/Content/scrollTable.css")" rel="stylesheet" type="text/css" />
+    
 </head>
 <body>
     <script src="~/Scripts/jquery-1.10.2.js"></script>
@@ -93,7 +52,7 @@
     </script>
 
     <script language="javascript">
-        debugger;
+        
         function getJSON(action, getStock) {
             $("#status").text("Loading Table...");
             $.get(action, null, getStock);
@@ -105,7 +64,7 @@
 
         // Code products table in html : (JSON list) prodList retrieved from action "getProductsByJSON"
         function getAll(stock) {
-            debugger;
+            
             
             $("#stockTable").find("tbody").remove();
             $("#stockTable").find("thead").remove();
@@ -128,13 +87,12 @@
             tbl.append("<tbody>")
             for (k = 0; k < stock.length; k++) {
                 var row =
-                    
                     "<tr id= 'all_row_" + k + "'>" +
                     "<td>" + stock[k].Model + "</td>" +
                     "<td>" + stock[k].Maker + "</td>" +
                     "<td>" + stock[k].Quantity + "</td>" +
                     "<td>" + stock[k].Type + "</td>" +
-                    "<td><input type='text' id='all_count_" + k + "' value='0'/></div></td>" +
+                    "<td><input type='text' id='all_count_" + k + "' value='0'/></td>" +
                     "<td><input type='button' id='all_bt_" + k + "' value='Add to Cart' onclick=\"purchaseProcess($(\'#all_count_" + k + "\').val()," + stock[k].Model + "," + stock[k].Price + "," + "\'stock_txt_" + k + "\')\"></td>" +
                     //"<td><input type='button' id='pc_bt_" + k + "' value='Add to Cart' onclick=\"addToCart(\'pc_row_" + k + "\')\"></td>" +                                              `
                     "<td id='stock_txt_" + k + "'>Stock Text</td>" +
