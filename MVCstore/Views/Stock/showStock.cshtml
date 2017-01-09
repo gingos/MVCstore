@@ -10,55 +10,47 @@
     <meta name="viewport" content="width=device-width" />
     <title>showStock</title>
     <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            border-spacing: 0;
+        table.scroll {
+            width: 85%;  
+            /* Optional */
+            /* border-collapse: collapse; */
+            border-spacing: 5px;
             border: 2px solid black;
         }
 
-        thead, tbody, tr, td, th {
-            display: block;
-        }
+            table.scroll tbody,
+            table.scroll thead {
+                display: block;
+            }
 
-        tr:after {
-            content: ' ';
-            display: block;
-            visibility: hidden;
-            clear: both;
-        }
-
-        thead th {
+        thead tr th {
             height: 30px;
             line-height: 30px;
-            /*text-align: left;*/
+            text-align: center; 
         }
 
-        tbody {
-            height: 300px;
+        table.scroll tbody {
+            height: 100px;
             overflow-y: auto;
-        }
-
-        thead {
-            /* fallback */
-            width: 97%;
-            /* minus scroll bar width */
-            width: calc(100% - 17px);
+            overflow-x: hidden;
         }
 
         tbody {
             border-top: 2px solid black;
         }
 
-        tbody td, thead th {
-            width: 13.7%; /*was 19.2*/
-            float: left;
-            border-right: 1px solid black;
-        }
+            tbody td,
+            thead th {
+                width: 10%; 
+                /* Optional */
+                border-right: 1px solid black;
+                /* white-space: nowrap; */
+            }
 
-        tbody td:last-child, thead th:last-child {
-            border-right: none;
-        }
+                tbody td:last-child,
+                thead th:last-child {
+                    border-right: none;
+                }
     </style>
 </head>
 <body>
@@ -74,13 +66,34 @@
         </div>
         <div id="status"></div>
         <div>
-            <table id="stockTable"></table>
+            <table class="scroll" id="stockTable"></table>
         </div>
         <br />
     </div>
 
     <script language="javascript">
+        // Change the selector if needed
+        var $table = $('table.scroll'),
+          $bodyCells = $table.find('tbody tr:first').children(),
+          colWidth;
 
+        // Adjust the width of thead cells when window resizes
+        $(window).resize(function () {
+            // Get the tbody columns width array
+            colWidth = $bodyCells.map(function () {
+                return $(this).width();
+            }).get();
+
+            // Set the width of thead columns
+            $table.find('thead tr').children().each(function (i, v) {
+                $(v).width(colWidth[i]);
+            });
+        }).resize(); // Trigger resize handler
+
+    </script>
+
+    <script language="javascript">
+        debugger;
         function getJSON(action, getStock) {
             $("#status").text("Loading Table...");
             $.get(action, null, getStock);
@@ -98,13 +111,13 @@
             var header =
                 "<thead>" +
                     "<tr>" +
-                        "<td>Model</td>" +
-                        "<td>Maker</td>" +
-                        "<td>In Stock</td>" +
-                        "<td>Type</td>" +
-                        "<td>Order More?</td>" +
-                        "<td></td>" +
-                        "<td></td>" +
+                        "<th>Model</th>" +
+                        "<th>Maker</th>" +
+                        "<th>In Stock</th>" +
+                        "<th>Type</th>" +
+                        "<th>Order More?</th>" +
+                        "<th></th>" +
+                        "<th></th>" +
                     "</tr>" +
                  "</thead>";
             tbl.append(header);
