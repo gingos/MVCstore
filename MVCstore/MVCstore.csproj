@@ -173,7 +173,9 @@
     <Compile Include="Models\PC.cs" />
     <Compile Include="Models\Printer.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\Register.cs" />
     <Compile Include="Models\StockRequest.cs" />
+    <Compile Include="Models\UserProfile.cs" />
     <Compile Include="ModelView\OrderViewModel.cs" />
     <Compile Include="ModelView\ProductViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -220,6 +222,8 @@
     <Content Include="Views\Products\showProducts.cshtml" />
     <Content Include="Views\Products\showCart.cshtml" />
     <Content Include="Views\Stock\showStock.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Home\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
