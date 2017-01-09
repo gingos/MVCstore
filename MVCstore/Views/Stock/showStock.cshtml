@@ -99,7 +99,6 @@
             $.get(action, null, getStock);
         }
         //TODO: 
-        // 2. fit big table into smaller frame
         // 3. write "begin purchase function" tree
         // 4. apply above to "0-stock" table
 
@@ -107,8 +106,9 @@
         // Code products table in html : (JSON list) prodList retrieved from action "getProductsByJSON"
         function getAll(stock) {
             debugger;
-            //$("#stockTable").find("thead").remove();
-            $("#stockTable tbody").remove();
+            
+            $("#stockTable").find("tbody").remove();
+            $("#stockTable").find("thead").remove();
             var tbl = $("#stockTable");
             var header =
                 "<thead>" +
@@ -123,6 +123,8 @@
                     "</tr>" +
                  "</thead>";
             tbl.append(header);
+            
+
             tbl.append("<tbody>")
             for (k = 0; k < stock.length; k++) {
                 var row =
@@ -139,7 +141,8 @@
                     "</tr>"
                 tbl.append(row);
             }
-            tbl.append("</tbody>")
+             tbl.append("</tbody>")
+            
             $("#status").text("")
 
         }
