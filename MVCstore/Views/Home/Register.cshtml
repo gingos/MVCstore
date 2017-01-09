@@ -1,0 +1,63 @@
+﻿@model MVCstore.Models.Register
+
+@{
+    ViewBag.Title = "Register";
+}
+
+@using (Html.BeginForm("Register", "Home", FormMethod.Post))
+{
+    <fieldset>
+        <legend>Login</legend>
+
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @if (@ViewBag.Message != null)
+        {
+            <div style="border: 1px solid red">
+                @ViewBag.Message
+            </div>
+        }
+        <body>
+            <div>
+               
+                    <table>
+                        <tr>
+                            <td>First Name</td>
+                            <td> <input name="firstName" value="@Model.firstName" /> </td>
+                            <td>@Html.ValidationMessageFor(x => x.firstName)</td>
+
+                        </tr>
+                        <tr>
+                            <td>Last Name</td>
+                            <td> <input name="lastName" value="@Model.lastName" /> </td>
+                            <td>@Html.ValidationMessageFor(x => x.lastName)</td>
+                        </tr>
+                        <tr>
+                            <td>Email Address</td>
+                            <td> <input name="email" value="@Model.customerEmail" /> </td>
+                            <td>@Html.ValidationMessageFor(x => x.customerEmail)</td>
+                        </tr>
+                        <tr>
+                            <td>Confirm Email Address</td>
+                            <td> <input name="confirmEmail" value="@Model.customerEmailConfirmation" /> </td>
+                            <td>@Html.ValidationMessageFor(x => x.customerEmailConfirmation)</td>
+                        </tr>
+                        <tr>
+                            <td>Phone number</td>
+                            <td> <input name="phoneNum" value="@Model.customerPhone" /> </td>
+                            <td>@Html.ValidationMessageFor(x => x.customerPhone)</td>
+                        </tr>
+
+                        <tr>
+                            <td></td>
+                            <td>
+                                <input id="Submit" type="submit" value="Register" />
+                            </td>
+                            <td></td>
+                        </tr>
+                    </table>
+                
+            </div>
+        </body>
+    </fieldset>
+}
