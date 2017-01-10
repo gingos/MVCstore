@@ -28,9 +28,6 @@ namespace MVCstore.Controllers
             return View();
         }
 
-        //TODO:
-        // 
-        // showStock with 0 quantity
 
         //showStock
         public ActionResult showStock()
@@ -54,14 +51,14 @@ namespace MVCstore.Controllers
             sr.Model = model;
             stockDal.stockRequests.Add(sr);
             stockDal.SaveChanges();
-
+            //return JSON with updates list
             return new EmptyResult();
         }
-        public ActionResult showConfirm()
+        public ActionResult showRestockRequests()
         {
             //TODO: add "show confirm" view
             // is strongly typed to request VM
-            // shows uncofirmed requests, on clock, assigns date and updates product quantity
+            // shows uncofirmed requests, on clock(??), assigns date and updates product quantity
             rvm.sr = new StockRequest();
             rvm.stockRequestList = stockDal.stockRequests.Where(sr => sr.arrivedDate == null).ToList<StockRequest>();
             return View(rvm);
