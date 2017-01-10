@@ -7,7 +7,7 @@ using System.Web;
 
 namespace MVCstore.DAL
 {
-    public class stockOrderDal : DbContext
+    public class stockRequestDal : DbContext
     {
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

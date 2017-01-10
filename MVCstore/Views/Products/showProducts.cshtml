@@ -135,13 +135,32 @@
             $("#status").text("")
 
         }
-
+       
+        //disable "show cart" button
+        //subtract quantity from products (product dal)
+        //add (available) to cart (order dal)
+        //      -- add (return): notify quantity label
+        //      -- enable "show cart" button
+        function purchaseProcess(quantity, model, price, label) {
+            if (quantity <= 0) {
+                alert('please specify a positive quantity');
+                return;
+            }
+            
+            hideButtoWhilePurchase();
+            // A-sync JSON query
+            subtractFromStock(model, quantity, price, label);
+            
+        }
+       
+        // functions verifes if item is in stock
+        // if yes, adds to cart and decreases product quantity
+        // if partial or zero, returns available quantity
         function subtractFromStock(model, wantedQuantity, price, label) {
             //should probably move this one and move the purchase part to "show cart"
             //build a list of desired products, send them all to "show cart"
             //and apply this function on each item on the list
             var ok = document.getElementById(label);
-            alert("in function: subtract from stock");
             var url = '@Url.Action("checkStock", "Products")';
             var stockData = { quantityToBuy: wantedQuantity, model: model, price: price };
             ok.innerHTML = "checking if product is in stock... ";
@@ -150,35 +169,23 @@
             //addedQuantityData: Order object
             function (orderData) {
 
-                if (orderData.Quantity == wantedQuantity) 
-                    ok.innerHTML = "product successfully added to cart!";
-                else if (orderData.Quantity > 0 && orderData.Quantity < wantedQuantity )
-                    ok.innerHTML = "stock was not enough, added to cart only " + orderData.Quantity + "items";
-                else if (orderData.Quantity == 0)
-                    ok.innerHTML = "sorry, item was not in stock, try again soon";
+                if (orderData.Quantity == wantedQuantity) {
+                    alert('product successfully added to cart!');
+                    ok.innerHTML = "";
+                }
+                else if (orderData.Quantity > 0 && orderData.Quantity < wantedQuantity) {
+                    alert('stock was not enough, added to cart only ' + orderData.Quantity + ' items');
+                    ok.innerHTML = "";
+                }
+                else if (orderData.Quantity == 0) {
+                    alert('sorry, item was not in stock, try again soon');
+                    ok.innerHTML = "";
+                }
 
                 showButtonAfterPruchase();
             }
             );
-        } 
-        
-        //disable "show cart" button
-        //subtract quantity from products (product dal)
-        //add (available) to cart (order dal)
-        //      -- add (return): notify quantity label
-        //      -- enable "show cart" button
-        function purchaseProcess(quantity, model, price, label) {
-            if (quantity == 0) {
-                alert('please specify quantity');
-                return;
-            }
-
-            hideButtoWhilePurchase();
-            // A-sync JSON query
-            subtractFromStock(model, quantity, price, label);
-            
         }
-
         function hideButtoWhilePurchase() {     
                 $("#toCart_bt").hide();
         }
