@@ -3,11 +3,15 @@
 @{
     ViewBag.Title = "Register";
 }
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
 @using (Html.BeginForm("Register", "Home", FormMethod.Post))
 {
+    
     <fieldset>
-        <legend>Login</legend>
+       
 
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)
@@ -19,35 +23,86 @@
         }
         <body>
             <div>
-               
+                <form action="Submit" method="post">
                     <table>
                         <tr>
+                            <th><legend>Register</legend></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th><legend>Login</legend></th>
+                        </tr>
+                        <col width="100" />
+                        <tr>
                             <td>First Name</td>
-                            <td> <input name="firstName" value="@Model.firstName" /> </td>
-                            <td>@Html.ValidationMessageFor(x => x.firstName)</td>
+                            <td> @Html.TextBoxFor(x => x.firstName) </td>
+                            <td><span style="color:red">@Html.ValidationMessageFor(x => x.firstName)</span></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>Email</td>
+                            <td> @Html.TextBoxFor(x => x.customerEmail)</td>
+                            <td><span style="color:red">@Html.ValidationMessageFor(x => x.customerEmail)</span></td>
 
                         </tr>
+                        <col width="100" />
                         <tr>
                             <td>Last Name</td>
-                            <td> <input name="lastName" value="@Model.lastName" /> </td>
-                            <td>@Html.ValidationMessageFor(x => x.lastName)</td>
+                            <td> @Html.TextBoxFor(x => x.lastName) </td>
+                            <td><span style="color:red">@Html.ValidationMessageFor(x => x.lastName)</span></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>Password</td>
+                            <td> @Html.PasswordFor(x => x.password)</td>
+                            <td><span style="color:red">@Html.ValidationMessageFor(x => x.password)</span></td>
                         </tr>
+                        <col width="100" />
                         <tr>
                             <td>Email Address</td>
-                            <td> <input name="email" value="@Model.customerEmail" /> </td>
-                            <td>@Html.ValidationMessageFor(x => x.customerEmail)</td>
+                            <td>@Html.TextBoxFor(x => x.customerEmail)</td>
+                            <td><span style="color:red">@Html.ValidationMessageFor(x => x.customerEmail)</span></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><input id="Submit" type="Submit" value="Login" /></td>
                         </tr>
+                        <col width="100" />
                         <tr>
                             <td>Confirm Email Address</td>
-                            <td> <input name="confirmEmail" value="@Model.customerEmailConfirmation" /> </td>
-                            <td>@Html.ValidationMessageFor(x => x.customerEmailConfirmation)</td>
+                            <td> @Html.TextBoxFor(x => x.customerEmailConfirmation) </td>
+                            <td><span style="color:red">@Html.ValidationMessageFor(x => x.customerEmailConfirmation)</span></td>
                         </tr>
+                        <col width="100" />
+                        <tr></tr>
+                        <col width="100" />
+                        <tr>
+                            <td>Password</td>
+                            <td> @Html.PasswordFor(x => x.password) </td>
+                            <td><span style="color:red">@Html.ValidationMessageFor(x => x.password)</span></td>
+                        </tr>
+                        <col width="100" />
+                        <tr>
+                            <td>Confirm Password</td>
+                            <td> @Html.PasswordFor(x => x.passwordConfirm) </td>
+                            <td><span style="color:red">@Html.ValidationMessageFor(x => x.passwordConfirm)</span></td>
+                        </tr>
+                        <col width="100" />
+                        <tr></tr>
+                        <col width="100" />
                         <tr>
                             <td>Phone number</td>
-                            <td> <input name="phoneNum" value="@Model.customerPhone" /> </td>
-                            <td>@Html.ValidationMessageFor(x => x.customerPhone)</td>
+                            <td> @Html.TextBoxFor(x => x.customerPhone) </td>
+                            <td><span style="color:red">@Html.ValidationMessageFor(x => x.customerPhone)</span></td>
                         </tr>
-
+                        <col width="100" />
                         <tr>
                             <td></td>
                             <td>
@@ -56,8 +111,9 @@
                             <td></td>
                         </tr>
                     </table>
-                
+                </form>
             </div>
         </body>
-    </fieldset>
+     </fieldset>
+    
 }
