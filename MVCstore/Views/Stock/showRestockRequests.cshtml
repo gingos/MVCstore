@@ -1,0 +1,87 @@
+﻿@model MVCstore.ModelView.RestockViewModel
+@using MVCstore.Models
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>showRestockRequests</title>
+</head>
+<body>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+    <div> 
+        <span style="color:blue">Please Confirm Order Of The Following Products:</span><br />
+    </div>
+    <div>
+        <table id="requestsTable">
+            <tr id="header">
+                <td>Request ID</td>
+                <td>Model</td>
+                <td>Quantity</td>
+            </tr>
+            @foreach ( StockRequest sr in Model.stockRequestList)
+            {
+                <tr>
+                    <td>@sr.ReqID</td>
+                    <td>@sr.Model</td>
+                    <td>@sr.Quantity</td>
+                </tr>
+            }
+        </table>
+        <br />
+        <button id="confirm_bt" onclick="confirmOrder()"> Confirm Requests!</button>
+        <button id="restockMore_bt" onclick="location.href='@Url.Action("showStock", "Stock")';">Hurry, Restock Some More!</button>
+        <button id="Home_bt" onclick="location.href='@Url.Action("Index", "Home")';">Home</button>
+    </div>
+
+    <script language="javascript">
+        $(document).ready(function () {
+            //keep only one document.ready if possible and wrap all the js code in that
+            hideButtonIfEmpty();
+        });
+
+        function hideButtonIfEmpty() {
+            var numRows = document.getElementById("requestsTable").rows.length;
+            if (numRows == 1) {
+                $("#confirm_bt").hide();
+            } else {
+                $("#confirm_bt").show();
+            }
+        }
+
+        function confirmOrder() {
+            var r = confirm("Confirm Order Of Requested Products?");
+            if (r == true) {
+                printReceipt();
+                //TODO: not showing refreshed table (should be empty after checkout)
+                refresh();
+            }
+        }
+
+        function printReceipt() {
+            sumHtmlTable();
+            addShippedDate(1);
+        }
+
+        function sumHtmlTable() {
+            var table = document.getElementById('requestsTable');
+            var sum = 0;
+            debugger;
+            for (var r = 1, n = table.rows.length; r < n; r++) {
+                var qua = parseInt(table.rows[r].cells[2].innerHTML);
+                sum += qua;
+            }
+            alert('Ordering a total of ' + sum + ' Products' +'\n' + 'Receipt will be send via a stork');
+        }
+    </script>
+</body>
+</html>
