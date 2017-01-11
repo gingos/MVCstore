@@ -1,0 +1,46 @@
+﻿@model MVCstore.ModelView.RestockViewModel
+@using MVCstore.Models
+
+@{
+    ViewBag.Title = "Requests History";
+    Layout = "~/Views/Shared/Stock_Layout.cshtml";
+}
+
+<h3>Requests History </h3>
+<table id="requestsTable" align="center">
+    <tr id="header">
+        <td>Request ID</td>
+        <td>Model</td>
+        <td>Quantity</td>
+        <td>Arrival Date</td>
+    </tr>
+    @foreach (StockRequest sr in Model.stockRequestList)
+    {
+        <tr>
+            <td>@sr.ReqID</td>
+            <td>@sr.Model</td>
+            <td>@sr.Quantity</td>
+            <td>@sr.arrivedDate</td>
+        </tr>
+    }
+</table>
+
+<script language="javascript">
+        $(document).ready(function() {
+            //keep only one document.ready if possible and wrap all the js code in that
+            hideTableIfEmpty();
+        });
+
+        // only shows "cash out!" button if has unordered products
+        function hideTableIfEmpty() {
+            var x = document.getElementById("ordersTable").rows.length;
+            if (x == 1) {
+                $("#requestsTable").hide();
+            } else {
+                $("#requestsTable").show();
+            }
+        }
+</script>
+
+
+

@@ -2,7 +2,7 @@
 @using MVCstore.Models
 
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/Products_Layout.cshtml";
 }
 
 <!DOCTYPE html>
@@ -18,9 +18,9 @@
     <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <div>
-        <span style="color:blue">Your Shopping Cart:</span><br />
+        <h3>Your Shopping Cart</h3><br />
     </div>
-    <div> 
+    <div align="center"> 
         <table id="ordersTable">
             <tr id="header">
                 <td>Order ID</td>
@@ -29,7 +29,7 @@
                 <td>Quantity</td>
                 <td>Price</td>
             </tr>
-            @foreach(Order ord in Model.orderList)
+            @foreach (Order ord in Model.orderList)
             {
                 <tr>
                     <td>@ord.OrdID</td>
@@ -42,15 +42,24 @@
         </table>
         <br />
         <button id="sumTable_bt" onclick="checkOut()"> Check Out!</button>
-        <button id="shopMore_bt" onclick="location.href='@Url.Action("showProducts", "Products")';" >Go shop some more!</Button>
-        <button id="Home_bt" onclick="location.href='@Url.Action("Index", "Home")';" >Home</button>
     </div>
 
     <script language="javascript">
         $(document).ready(function() {
             //keep only one document.ready if possible and wrap all the js code in that
             hideButtonIfEmpty();
+            hideTableIfEmpty();
         });
+
+        // only shows table if has unordered products
+        function hideTableIfEmpty() {
+            var x = document.getElementById("ordersTable").rows.length;
+            if (x == 1) {
+                $("#ordersTable").hide();
+            } else {
+                $("#ordersTable").show();
+            }
+        }
 
         // only shows "cash out!" button if has unordered products
         function hideButtonIfEmpty() {
@@ -61,21 +70,16 @@
                 $("#sumTable_bt").show();
             }
         }
+
         // begin check out proccess: confirm quantity and add to cart
         function checkOut() {
             var r = confirm("Confirm Check Out?");
             if (r == true) {
-                printReceipt();
-                //TODO: not showing refreshed table (should be empty after checkout)
-                refresh();   
+                sumHtmlTable();
+                addShippedDate(1);
             }
         }
-        // print total order sum and add shipping date
-        function printReceipt() {
-            sumHtmlTable();
-            addShippedDate(1);
-            
-        }
+
         // sum all columns and print
         function sumHtmlTable() {
             var table = document.getElementById('ordersTable');
@@ -86,16 +90,17 @@
             }
             alert('Total sum is ' + sum + '\n' + 'Receipt will be send via an owl');
         }
+        
         // add today's date to ORDERS table, hence mark them as confirmed
         function addShippedDate(cID) {
             var url = '@Url.Action("updateShipment", "Products")';
             var data = { custID: cID };
-            $.post(url, data, null);
+            $.post(url, data, refreshPage);
         }
-        // not working: refresh table
-        function refresh() {
-            var url = '@Url.Action("showCart", "Products")';
-            $.get(url, null, null);
+
+        // once mark shipped, refresh page
+        function refreshPage() {
+            location.reload();
         }
 
 

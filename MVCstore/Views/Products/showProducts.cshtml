@@ -1,6 +1,6 @@
 ﻿
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/Products_Layout.cshtml";
 }
 
 <!DOCTYPE html>
@@ -17,20 +17,18 @@
     <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>
     <div> 
-        <span style="color:blue" >Look at all these PRODUCTS:</span><br />
+        <h3>Look at all these Products</h3><br />
     </div>
-    <div>
+    <div align="center">
         <input id="getPC_bt" type="button" value="get PC" onclick="getJSON('getPCbyJSON', getPC)" />
         <input id="getPrinter_bt" type="button" value="get Printer" onclick="getJSON('getPrinterByJSON', getPrinter)" />
         <input id="getLaptop_bt" type="button" value="get Laptop" onclick="getJSON('getLaptopByJSON', getLaptop)" />
     </div>
     <div id="status"></div>
-    <div>
+    <div align="center">
         <table id="productsTable"></table>
     </div>
-    <br />
-    <input id="toCart_bt" type="button" value="See Shopping Cart & Checkout &raquo;" onclick="location.href='@Url.Action("showCart", "Products")';" />
-
+    
     <script lang="javascript">
 
         /* Choose what product's JSON to get

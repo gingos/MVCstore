@@ -1,0 +1,9 @@
+﻿@model MVCstore.ModelView.OrderViewModel
+
+@{ 
+    WebGrid wg = new WebGrid(Model.orderList);
+}
+@wg.GetHtml()
+    <br />
+    
+

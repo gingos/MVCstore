@@ -1,0 +1,13 @@
+﻿@model MVCstore.ModelView.OrderViewModel
+@using MVCstore.Models
+
+@{
+    ViewBag.Title = "searchOrder";
+    Layout = "~/Views/Shared/Products_Layout.cshtml";
+}
+
+<h2>search Results</h2>
+<div align="center">
+    @Html.Partial("Display", Model)
+</div>
+

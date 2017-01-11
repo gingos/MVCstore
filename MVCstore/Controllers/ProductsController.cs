@@ -105,7 +105,7 @@ namespace MVCstore.Controllers
             Product prod = proddal.products.First(p => p.Model.Equals (model));
 
             Order order = new Order();
-            order.CustID = "1";
+            order.CustID = 1;
             order.Model = model;
             order.Price = price;
 
@@ -130,24 +130,50 @@ namespace MVCstore.Controllers
             return Json(order, JsonRequestBehavior.AllowGet);
         }
         
-        // CartView
+        // Cart View
+        /// <summary>
+        /// show cart, which is all orders that were not yet shipped - clicked "cash out"
+        /// </summary>
+        /// <returns> order view model, list</returns>
         public ActionResult showCart()
         {
             ovm.order = new Order();
             ovm.orderList = orddal.orders.Where(o=> o.shippedDate == null).ToList<Order>();
             return View(ovm);
         }
-        public EmptyResult updateShipment(string custID)
-        {
-            List<Order> olist = orddal.orders.Where(o => o.CustID.Equals(custID)).ToList();
-            olist.ForEach(o => o.shippedDate = DateTime.Today);
-            orddal.SaveChanges();
 
-            //ovm.order = new Order();
-            //ovm.orderList = orddal.orders.Where(o => o.shippedDate == null).ToList<Order>();
-            //ovm.orderList = orddal.orders.ToList<Order>();
-            //return View("showCart", ovm);
+        /// <summary>
+        /// add today's date to "shipped" culumn
+        /// triggered by "cash out" button
+        /// </summary>
+        /// <param name="custID"> customer the order belongs to</param>
+        public EmptyResult updateShipment(int custID)
+        {
+            List<Order> olist = orddal.orders.Where(o => o.CustID == (custID)).ToList();
+            olist.ForEach(o => o.shippedDate = DateTime.Now);
+            orddal.SaveChanges();
             return new EmptyResult();
+        }
+
+        // Order History View
+        /// <summary>
+        /// Show All Orders User has made
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult viewHistory()
+        {
+            ovm.order = new Order();
+            ovm.orderList = orddal.orders.Where(o => o.CustID==1).ToList<Order>();
+            return View(ovm);
+        }
+
+        public ActionResult searchOrder()
+        {
+            string searchValue = Request.Form["search_txt"].ToString();
+            List<Order> olist = orddal.orders.Where(o => o.Model.Equals(searchValue)).ToList();
+            ovm.orderList = olist;
+
+            return View(ovm);
         }
     }
 }
