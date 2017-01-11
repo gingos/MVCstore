@@ -1,4 +1,4 @@
-﻿@model MVCstore.Models.Register
+﻿@model MVCstore.Models.Customers
 
 @{
     ViewBag.Title = "Register";
@@ -7,21 +7,67 @@
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
-@using (Html.BeginForm("Register", "Home", FormMethod.Post))
-{
-    
-    <fieldset>
-       
+<script language="javascript">  
+        
+     function validatePassword() {
+         var password = document.getElementById("PasswordHash");
+         var confirm_password = document.getElementById("confirm_password");
+         var password_exception = document.getElementById("passwordException");
+         if (password.value != confirm_password.value) {
+            password_exception.innerHTML = "Passwords Don't Match";
+            password_exception.style.color = "red";
+         } else {
+            password_exception.setCustomValidity('');
+         }
+     }
 
-        @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true)
-        @if (@ViewBag.Message != null)
-        {
-            <div style="border: 1px solid red">
-                @ViewBag.Message
-            </div>
+    password.onchange = validatePassword;
+    confirm_password.onkeyup = validatePassword;
+
+    function validateEmail() {
+        var Email = document.getElementById("Email");
+        var confirm_Email = document.getElementById("EmailConfirmation");
+        var confirmation_exception = document.getElementById("emailConfirmationException")
+        if (Email.value != confirm_Email.value) {
+            confirmation_exception.innerHTML = "Email's Don't Match";
+            confirmation_exception.style.color = "red";
+        } else {
+            confirmation_exception.setCustomValidity('');
         }
-        <body>
+    }
+
+    Email.onchange = validateEmail;
+    confirm_Email.onkeyup = validateEmail;
+
+    function verifyEmail() {
+        var logEmail = document.getElementById("logEmail");
+        var emailException = document.getElementById("emailException");
+        if (!logEmail.textContent.match("[a-z0-9._%+-]+&#64;[a-z0-9.-]+.[a-z]{2,4}$")){
+            emailException.innerHTML = "please enter a Email address";
+            emailException.style.color = "red";
+            }
+    }
+    logEmail.onchange = verifyEmail();
+    logEmail.onkeyup = verifyEmail();
+
+
+</script>
+<body>
+    @using (Html.BeginForm("Register", "Home", FormMethod.Post))
+    {
+
+        <fieldset>
+
+
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            @if (@ViewBag.Message != null)
+            {
+                <div style="border: 1px solid red">
+                    @ViewBag.Message
+                </div>
+            }
+
             <div>
                 <form action="Submit" method="post">
                     <table>
@@ -35,85 +81,94 @@
                             <th></th>
                             <th><legend>Login</legend></th>
                         </tr>
-                        <col width="100" />
+                       
                         <tr>
                             <td>First Name</td>
-                            <td> @Html.TextBoxFor(x => x.firstName) </td>
-                            <td><span style="color:red">@Html.ValidationMessageFor(x => x.firstName)</span></td>
+                            <td> @Html.TextBoxFor(x => x.FirstName) </td>
+                            <td><span style="color:red">@Html.ValidationMessageFor(x => x.FirstName)</span></td>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td>Email</td>
-                            <td> @Html.TextBoxFor(x => x.customerEmail)</td>
-                            <td><span style="color:red">@Html.ValidationMessageFor(x => x.customerEmail)</span></td>
+                            <td><input type="text" id="logEmail" onkeyup="verifyEmail()" /></td>
+                            <td id="emailException"></td>
 
                         </tr>
                         <col width="100" />
                         <tr>
                             <td>Last Name</td>
-                            <td> @Html.TextBoxFor(x => x.lastName) </td>
-                            <td><span style="color:red">@Html.ValidationMessageFor(x => x.lastName)</span></td>
+                            <td> @Html.TextBoxFor(x => x.LastName) </td>
+                            <td><span style="color:red">@Html.ValidationMessageFor(x => x.LastName)</span></td>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td>Password</td>
-                            <td> @Html.PasswordFor(x => x.password)</td>
-                            <td><span style="color:red">@Html.ValidationMessageFor(x => x.password)</span></td>
+                            <td><input type="password" id="logPassword")</td>
+                            <td><span style="color:red"></span></td>
                         </tr>
                         <col width="100" />
                         <tr>
                             <td>Email Address</td>
-                            <td>@Html.TextBoxFor(x => x.customerEmail)</td>
-                            <td><span style="color:red">@Html.ValidationMessageFor(x => x.customerEmail)</span></td>
+                            <td>@Html.TextBoxFor(x => x.Email)</td>
+                            <td><span style="color:red">@Html.ValidationMessageFor(x => x.Email)</span></td>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td><input id="Submit" type="Submit" value="Login" /></td>
+                            <td>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio"> Check if you are an Emloyee
+                                    </label>
+                                </div>
+                            </td>
+
                         </tr>
                         <col width="100" />
                         <tr>
                             <td>Confirm Email Address</td>
-                            <td> @Html.TextBoxFor(x => x.customerEmailConfirmation) </td>
-                            <td><span style="color:red">@Html.ValidationMessageFor(x => x.customerEmailConfirmation)</span></td>
+                            <td><input type="text" id="EmailConfirmation" onkeyup="validateEmail()" /></td>
+                            <td id="emailConfirmationException"><span style="color:red"></span></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><button type="button" class="btn btn-primary" name="LoginButton">Login</button></td>
                         </tr>
-                        <col width="100" />
                         <tr></tr>
-                        <col width="100" />
                         <tr>
                             <td>Password</td>
-                            <td> @Html.PasswordFor(x => x.password) </td>
-                            <td><span style="color:red">@Html.ValidationMessageFor(x => x.password)</span></td>
+                            <td> @Html.PasswordFor(x => x.PasswordHash) </td>
+                            <td><span style="color:red">@Html.ValidationMessageFor(x => x.PasswordHash)</span></td>
                         </tr>
-                        <col width="100" />
                         <tr>
                             <td>Confirm Password</td>
-                            <td> @Html.PasswordFor(x => x.passwordConfirm) </td>
-                            <td><span style="color:red">@Html.ValidationMessageFor(x => x.passwordConfirm)</span></td>
+                            <td><input type="password" id="confirm_password" onkeyup="validatePassword()" /></td>
+                            <td  id="passwordException"></td>
                         </tr>
-                        <col width="100" />
                         <tr></tr>
-                        <col width="100" />
                         <tr>
                             <td>Phone number</td>
-                            <td> @Html.TextBoxFor(x => x.customerPhone) </td>
-                            <td><span style="color:red">@Html.ValidationMessageFor(x => x.customerPhone)</span></td>
+                            <td> @Html.TextBoxFor(x => x.PhoneNumber) </td>
+                            <td><span style="color:red">@Html.ValidationMessageFor(x => x.PhoneNumber)</span></td>
                         </tr>
-                        <col width="100" />
+
                         <tr>
                             <td></td>
                             <td>
-                                <input id="Submit" type="submit" value="Register" />
+                                <button type="button" class="btn btn-primary" name="RegisterButton">Register</button>
                             </td>
                             <td></td>
                         </tr>
                     </table>
                 </form>
             </div>
-        </body>
-     </fieldset>
-    
-}
+
+        </fieldset>
+   
+    }
+     </body>
