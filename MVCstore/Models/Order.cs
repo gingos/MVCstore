@@ -13,7 +13,7 @@ namespace MVCstore.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int OrdID { get; set; }
 
-        public string CustID { get; set; }
+        public int CustID { get; set; }
         public string Model { get; set; }
         public int Quantity { get; set; }
         public int Price { get; set; }

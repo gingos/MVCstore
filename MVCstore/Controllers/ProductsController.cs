@@ -105,7 +105,7 @@ namespace MVCstore.Controllers
             Product prod = proddal.products.First(p => p.Model.Equals (model));
 
             Order order = new Order();
-            order.CustID = "1";
+            order.CustID = 1;
             order.Model = model;
             order.Price = price;
 
@@ -137,16 +137,11 @@ namespace MVCstore.Controllers
             ovm.orderList = orddal.orders.Where(o=> o.shippedDate == null).ToList<Order>();
             return View(ovm);
         }
-        public EmptyResult updateShipment(string custID)
+        public EmptyResult updateShipment(int custID)
         {
-            List<Order> olist = orddal.orders.Where(o => o.CustID.Equals(custID)).ToList();
+            List<Order> olist = orddal.orders.Where(o => o.CustID == (custID)).ToList();
             olist.ForEach(o => o.shippedDate = DateTime.Today);
             orddal.SaveChanges();
-
-            //ovm.order = new Order();
-            //ovm.orderList = orddal.orders.Where(o => o.shippedDate == null).ToList<Order>();
-            //ovm.orderList = orddal.orders.ToList<Order>();
-            //return View("showCart", ovm);
             return new EmptyResult();
         }
     }

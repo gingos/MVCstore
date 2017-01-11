@@ -49,6 +49,7 @@
             hideButtonIfEmpty();
         });
 
+        // only shows "confirm" button if has unshipped requests
         function hideButtonIfEmpty() {
             var numRows = document.getElementById("requestsTable").rows.length;
             if (numRows == 1) {
@@ -58,20 +59,16 @@
             }
         }
 
+        // begin request confirmation proccess: confirm quantity and add request dates
         function confirmOrder() {
             var r = confirm("Confirm Order Of Requested Products?");
             if (r == true) {
-                printReceipt();
-                //TODO: not showing refreshed table (should be empty after checkout)
-                refresh();
+                sumHtmlTable();
+                addShippedDate();
             }
         }
 
-        function printReceipt() {
-            sumHtmlTable();
-            addShippedDate(1);
-        }
-
+        // sum how many products will be shipped
         function sumHtmlTable() {
             var table = document.getElementById('requestsTable');
             var sum = 0;
@@ -81,6 +78,18 @@
                 sum += qua;
             }
             alert('Ordering a total of ' + sum + ' Products' +'\n' + 'Receipt will be send via a stork');
+        }
+
+        // add today's date to STOCK-REQUESTS table, hence mark them as confirmed
+        // perhaps possible with "submit", but i prefer the non-callback method
+        function addShippedDate() {
+            var url = '@Url.Action("restockProducts", "Stock")';
+            $.post(url, null, refreshPage);
+        }
+
+        // once mark arrived, refresh page
+        function refreshPage() {
+            location.reload();
         }
     </script>
 </body>
