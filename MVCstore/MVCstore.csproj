@@ -227,6 +227,12 @@
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
     <Content Include="Views\Stock\showRestockRequests.cshtml" />
+    <Content Include="Views\Products\viewHistory.cshtml" />
+    <Content Include="Views\Products\searchOrder.cshtml" />
+    <Content Include="Views\Products\Display.cshtml" />
+    <Content Include="Views\Shared\Products_Layout.cshtml" />
+    <Content Include="Views\Shared\Stock_Layout.cshtml" />
+    <Content Include="Views\Stock\viewRequestsHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

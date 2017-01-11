@@ -1,0 +1,23 @@
+﻿@model MVCstore.ModelView.OrderViewModel
+
+@{
+    ViewBag.Title = "viewHistory";
+    Layout = "~/Views/Shared/Products_Layout.cshtml";
+}
+
+<br />
+<div>
+    <form action="searchOrder" method="post">
+        
+        Looking for something?<br />
+        <input id="search_txt" name="search_txt" type="text" /><br />
+        <input id="Submit1" type="submit" value="search Model Number" />
+    </form>
+</div>
+
+<div align="center">
+    @Html.Partial("Display", Model)
+</div>
+
+
+

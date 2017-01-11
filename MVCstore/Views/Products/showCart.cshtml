@@ -2,7 +2,7 @@
 @using MVCstore.Models
 
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/Products_Layout.cshtml";
 }
 
 <!DOCTYPE html>
@@ -18,9 +18,9 @@
     <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <div>
-        <span style="color:blue">Your Shopping Cart:</span><br />
+        <h3>Your Shopping Cart</h3><br />
     </div>
-    <div> 
+    <div align="center"> 
         <table id="ordersTable">
             <tr id="header">
                 <td>Order ID</td>
@@ -29,7 +29,7 @@
                 <td>Quantity</td>
                 <td>Price</td>
             </tr>
-            @foreach(Order ord in Model.orderList)
+            @foreach (Order ord in Model.orderList)
             {
                 <tr>
                     <td>@ord.OrdID</td>
@@ -42,17 +42,24 @@
         </table>
         <br />
         <button id="sumTable_bt" onclick="checkOut()"> Check Out!</button>
-        <button id="shopMore_bt" onclick="location.href='@Url.Action("showProducts", "Products")';" >Go shop some more!</Button>
-        <button id="viewHistory_bt" onclick="location.href='@Url.Action("viewHistory", "Products")';">See All Orders History</button>
-        <br />
-        <button id="Home_bt" onclick="location.href='@Url.Action("Index", "Home")';" >Home</button>
     </div>
 
     <script language="javascript">
         $(document).ready(function() {
             //keep only one document.ready if possible and wrap all the js code in that
             hideButtonIfEmpty();
+            hideTableIfEmpty();
         });
+
+        // only shows table if has unordered products
+        function hideTableIfEmpty() {
+            var x = document.getElementById("ordersTable").rows.length;
+            if (x == 1) {
+                $("#ordersTable").hide();
+            } else {
+                $("#ordersTable").show();
+            }
+        }
 
         // only shows "cash out!" button if has unordered products
         function hideButtonIfEmpty() {

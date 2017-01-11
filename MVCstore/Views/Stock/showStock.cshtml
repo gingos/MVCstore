@@ -1,6 +1,6 @@
 ﻿
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/Stock_Layout.cshtml";
 }
 
 <!DOCTYPE html>
@@ -18,7 +18,7 @@
     <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
 
     <div>
-        <span style="color:blue">Better restock, winter is coming:</span><br />
+        <h3>Better restock, winter is coming</h3><br />
     </div>
     <div>
         <input id="allStock_bt" type="button" value="Show All Products" onclick="getJSON('getProductsByJSON', getAll)" />
@@ -26,12 +26,8 @@
     </div>
     <div id="status"></div>
     <div>
-        <table class="scroll" id="stockTable"></table>
+        <table class="scroll" id="stockTable" align="center"></table>
     </div>
-    <br />
-    <input id="toConfirm_bt" type="button" value="See Table of all Stock Requests  &raquo;" onclick="location.href='@Url.Action("showRestockRequests", "Stock")';" />
-    <br />
-    <button id="Home_bt" onclick="location.href='@Url.Action("Index", "Home")';">Home</button>
 
     
 
@@ -62,11 +58,7 @@
             $("#status").text("Loading Table...");
             $.get(action, null, getStock);
         }
-        //TODO:
-        // 3. write "begin purchase function" tree
-        // 4. apply above to "0-stock" table
-
-
+        
         // Code products table in html : (JSON list) prodList retrieved from action "getProductsByJSON"
         function getAll(stock) {
             $("#stockTable").find("tbody").remove();

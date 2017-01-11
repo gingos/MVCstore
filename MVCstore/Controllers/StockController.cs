@@ -98,9 +98,6 @@ namespace MVCstore.Controllers
 
         public ActionResult showRestockRequests()
         {
-            //TODO: add "show confirm" view
-            // is strongly typed to request VM
-            // shows uncofirmed requests, on clock(??), assigns date and updates product quantity
             rvm.sr = new StockRequest();
             rvm.stockRequestList = stockDal.stockRequests.Where(sr => sr.arrivedDate == null).ToList<StockRequest>();
             return View(rvm);
@@ -118,13 +115,20 @@ namespace MVCstore.Controllers
                             "(SELECT * FROM stockOrders WHERE arrivedDate IS NULL) s " +
                             "ON " +
                             "Products.Model = s.Model; ";
+
             proddal.Database.ExecuteSqlCommand(query);
 
-            srlist.ForEach(sr => sr.arrivedDate = DateTime.Today);
+            srlist.ForEach(sr => sr.arrivedDate = DateTime.Now);
             stockDal.SaveChanges();
             return new EmptyResult();
         }
 
-
+        // show Requests History view
+        public ActionResult viewRequestsHistory()
+        {
+            rvm.sr = new StockRequest();
+            rvm.stockRequestList = stockDal.stockRequests.ToList<StockRequest>();
+            return View(rvm);
+        }
     }
 }
