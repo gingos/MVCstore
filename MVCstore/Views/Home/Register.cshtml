@@ -69,7 +69,7 @@
             }
 
             <div>
-                <form action="Submit" method="post">
+                <form>
                     <table>
                         <tr>
                             <th><legend>Register</legend></th>
@@ -105,7 +105,7 @@
                             <td></td>
                             <td></td>
                             <td>Password</td>
-                            <td><input type="password" id="logPassword")</td>
+                            <td><input type="password" id="logPassword" /></td>
                             <td><span style="color:red"></span></td>
                         </tr>
                         <col width="100" />
@@ -137,7 +137,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td><button type="button" class="btn btn-primary" name="LoginButton">Login</button></td>
+                            <td><button type="submit" class="btn btn-primary" name="LoginButton" >Login</button></td>
                         </tr>
                         <tr></tr>
                         <tr>
@@ -160,7 +160,7 @@
                         <tr>
                             <td></td>
                             <td>
-                                <button type="button" class="btn btn-primary" name="RegisterButton">Register</button>
+                                <button action="SubmitRegister" formmethod="post" type="submit" class="btn btn-primary" name="RegisterButton" onclick="location.href='@Url.Action("SubmitRegister", "Home")'">Register</button>
                             </td>
                             <td></td>
                         </tr>

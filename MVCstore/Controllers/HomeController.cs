@@ -14,6 +14,7 @@ namespace MVCstore.Controllers
     public class HomeController : Controller
     {
         CustomersDal custDal;
+        Customers cust = new Customers();
 
         public ActionResult Index()
         {
@@ -46,21 +47,21 @@ namespace MVCstore.Controllers
         }
 
        
-        public ActionResult SubmitRegister(Customers reg)
+        public ActionResult SubmitRegister()
         {
-            string hash = reg.MD5Hash(reg.PasswordHash);
-            reg.PasswordHash = hash;
+            
             custDal = new CustomersDal();
 
             if (ModelState.IsValid) {
                 Customers cust = new Customers
                 {
-                    FirstName = reg.FirstName,
-                    LastName = reg.LastName,
-                    Email = reg.Email,
-                    PasswordHash = hash,
-                    PhoneNumber = reg.PhoneNumber                    
+                    FirstName = Request.Form["FirstName"].ToString(),
+                    LastName = Request.Form["LastName"].ToString(),
+                    Email = Request.Form["Email"].ToString(),
+                    PasswordHash = Request.Form["PasswordHash"].ToString(),
+                    PhoneNumber = Request.Form["PhoneNumber"].ToString()                    
                 };
+                cust.MD5Hash();
 
                 custDal.customers.Add(cust);
                 custDal.SaveChanges();              
@@ -68,14 +69,14 @@ namespace MVCstore.Controllers
                 return RedirectToAction("Index", cust);
             }
             else
-                return View("Register", reg);
+                return View("Register", cust);
         }
 
         public ActionResult SubmitLogin(Customers reg)
         {
             if (ModelState.IsValid)
             {
-                string hash = reg.MD5Hash(reg.PasswordHash);
+                
                 
                 return View("Index", reg);
             }
