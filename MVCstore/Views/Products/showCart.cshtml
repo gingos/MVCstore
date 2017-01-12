@@ -18,7 +18,7 @@
     <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <div>
-        <h3>Your Shopping Cart</h3><br />
+        <h3>Your Shopping Cart, @Session["userID"]</h3><br />
     </div>
     <div align="center"> 
         <table id="ordersTable">
@@ -75,8 +75,9 @@
         function checkOut() {
             var r = confirm("Confirm Check Out?");
             if (r == true) {
+                var custID = @Session["userID"];
                 sumHtmlTable();
-                addShippedDate(1);
+                addShippedDate(custID); //was 1
             }
         }
 

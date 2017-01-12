@@ -14,12 +14,15 @@ namespace MVCstore.Controllers
         OrderDal orddal;
         ProductDal proddal;
         OrderViewModel ovm;
+        int custID;
         
         public ProductsController()
         {
             orddal = new OrderDal();
             ovm = new OrderViewModel();
             proddal = new ProductDal();
+            
+            
         }
 
         // GET: Products
@@ -105,7 +108,7 @@ namespace MVCstore.Controllers
             Product prod = proddal.products.First(p => p.Model.Equals (model));
 
             Order order = new Order();
-            order.CustID = 1;
+            order.CustID = (int)Session["userID"];
             order.Model = model;
             order.Price = price;
 
@@ -137,8 +140,9 @@ namespace MVCstore.Controllers
         /// <returns> order view model, list</returns>
         public ActionResult showCart()
         {
-            ovm.order = new Order();
-            ovm.orderList = orddal.orders.Where(o=> o.shippedDate == null).ToList<Order>();
+            custID = (int)Session["userID"];
+            ovm.order = new Order(); //add o. user = session user
+            ovm.orderList = orddal.orders.Where(o=> o.CustID == custID && o.shippedDate == null).ToList<Order>();
             return View(ovm);
         }
 
@@ -149,6 +153,7 @@ namespace MVCstore.Controllers
         /// <param name="custID"> customer the order belongs to</param>
         public EmptyResult updateShipment(int custID)
         {
+            //custID = (int)Session["userID"];
             List<Order> olist = orddal.orders.Where(o => o.CustID == (custID)).ToList();
             olist.ForEach(o => o.shippedDate = DateTime.Now);
             orddal.SaveChanges();
@@ -162,8 +167,9 @@ namespace MVCstore.Controllers
         /// <returns></returns>
         public ActionResult viewHistory()
         {
+            custID = (int)Session["userID"];
             ovm.order = new Order();
-            ovm.orderList = orddal.orders.Where(o => o.CustID==1).ToList<Order>();
+            ovm.orderList = orddal.orders.Where(o => o.CustID== custID).ToList<Order>();
             return View(ovm);
         }
 

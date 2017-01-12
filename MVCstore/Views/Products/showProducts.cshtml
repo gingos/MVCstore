@@ -123,7 +123,7 @@
                     "<td>" + laptopList[k].Screen + "</td>" +
                     "<td>" + laptopList[k].Price + "</td> "+
                     "<td><input type='text' id='laptop_count_" + k + "' value='0'/></div></td>" +
-                    "<td><input type='button' id='laptop_bt_" + k + "' value='Add to Cart' onclick=\"purchaseProcess($(\'#laptop_" + k + "\').val()," + laptopList[k].Model + "," + laptopList[k].Price + "," + "\'stock_txt_" + k + "\')\"></td>" +
+                    "<td><input type='button' id='laptop_bt_" + k + "' value='Add to Cart' onclick=\"purchaseProcess($(\'#laptop_count_" + k + "\').val()," + laptopList[k].Model + "," + laptopList[k].Price + "," + "\'stock_txt_" + k + "\')\"></td>" +
                     "<td id='stock_txt_" + k + "'></td>" +
                     "</tr>";
 

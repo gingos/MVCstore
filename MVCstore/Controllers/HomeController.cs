@@ -15,11 +15,27 @@ namespace MVCstore.Controllers
     {
         CustomersDal custDal;
         Customers cust = new Customers();
+        int userID;
 
         public ActionResult Index()
         {
+            if (Session["userID"] != null)
+                userID = (int)Session["userID"];
             return View();
         }
+        public ActionResult IndexEmployees()
+        {
+            if (Session["userID"] != null)
+                userID = (int)Session["userID"];
+            return View("IndexEmployees");
+        }
+        public ActionResult IndexCustomers()
+        {
+            if (Session["userID"] != null)
+                userID = (int)Session["userID"];
+            return View("IndexCustomers");
+        }
+
 
         public ActionResult About()
         {
@@ -82,6 +98,20 @@ namespace MVCstore.Controllers
             }
             else
                 return View("Register", reg);
+        }
+
+        public ActionResult MockLogin()
+        {
+            Session["userID"] = 2;
+            //return RedirectToAction("Index");
+            Session["Type"] = "Employee";
+
+            string type = Session["Type"].ToString();
+
+            if (type.Equals("Employee"))
+                return RedirectToAction("IndexEmployees", "Home");
+            else
+                return RedirectToAction("IndexCustomers", "Home");
         }
 
 
