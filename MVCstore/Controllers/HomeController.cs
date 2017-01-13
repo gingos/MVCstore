@@ -15,24 +15,48 @@ namespace MVCstore.Controllers
     {
         CustomersDal custDal;
         Customers cust = new Customers();
-        int userID;
+        
 
         public ActionResult Index()
         {
-            if (Session["userID"] != null)
-                userID = (int)Session["userID"];
+            int userID;
+            if (Session != null)
+            {
+                if (Session["userID"] != null)
+                    userID = (int)Session["userID"];
+            }
+            else
+            {
+                //redirect to 404
+            }
             return View();
         }
         public ActionResult IndexEmployees()
         {
-            if (Session["userID"] != null)
-                userID = (int)Session["userID"];
+            int userID;
+            if (Session != null)
+            {
+                if (Session["userID"] != null)
+                    userID = (int)Session["userID"];
+            }
+            else
+            {
+                //redirect to 404
+            }
             return View("IndexEmployees");
         }
         public ActionResult IndexCustomers()
         {
-            if (Session["userID"] != null)
-                userID = (int)Session["userID"];
+            int userID;
+            if (Session != null)
+            {
+                if (Session["userID"] != null)
+                    userID = (int)Session["userID"];
+            }
+            else
+            {
+                //redirect to 404
+            }
             return View("IndexCustomers");
         }
 
