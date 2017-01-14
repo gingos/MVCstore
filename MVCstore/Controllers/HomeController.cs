@@ -50,23 +50,22 @@ namespace MVCstore.Controllers
         public ActionResult SubmitRegister()
         {
             
-            custDal = new CustomersDal();
-
+           
             if (ModelState.IsValid) {
-                Customers cust = new Customers
-                {
-                    FirstName = Request.Form["FirstName"].ToString(),
-                    LastName = Request.Form["LastName"].ToString(),
-                    Email = Request.Form["Email"].ToString(),
-                    PasswordHash = Request.Form["PasswordHash"].ToString(),
-                    PhoneNumber = Request.Form["PhoneNumber"].ToString()                    
-                };
+                custDal = new CustomersDal();
+                Customers cust = new Customers();
+
+                cust.FirstName = Request.Form["FirstName"].ToString();
+                cust.LastName = Request.Form["LastName"].ToString();
+                cust.Email = Request.Form["Email"].ToString();
+                cust.PasswordHash = Request.Form["PasswordHash"].ToString();
+                cust.PhoneNumber = Request.Form["PhoneNumber"].ToString();
+
                 cust.MD5Hash();
 
                 custDal.customers.Add(cust);
                 custDal.SaveChanges();              
-
-                return RedirectToAction("Index", cust);
+                return RedirectToAction("SubmitLogin", cust);
             }
             else
                 return View("Register", cust);

@@ -51,6 +51,20 @@
     logEmail.onkeyup = verifyEmail();
 
 
+
+    function sendRegister(){
+    var FirstName = document.getElementById("FirstName");
+    var LastName = document.getElementById("LastName");
+    var Email = document.getElementById("Email");
+    var PasswordHash = document.getElementById("PasswordHash");
+    var PhoneNumber = document.getElementById("PhoneNumber");
+    var data = { FirstName: FirstName, LastName: LastName, Email: Email, PasswordHash: PasswordHash, PhoneNumber: PhoneNumber };
+        url:  '@Url.Action("SubmitRegister","home")';
+        $.post(url, data, function () {
+            alert("Welcome Friend, Please Login with your Email address and Password")
+        });
+    
+    }
 </script>
 <body>
     @using (Html.BeginForm("Register", "Home", FormMethod.Post))
@@ -156,11 +170,11 @@
                             <td> @Html.TextBoxFor(x => x.PhoneNumber) </td>
                             <td><span style="color:red">@Html.ValidationMessageFor(x => x.PhoneNumber)</span></td>
                         </tr>
-
+                        <tr></tr>
                         <tr>
                             <td></td>
                             <td>
-                                <button action="SubmitRegister" formmethod="post" type="submit" class="btn btn-primary" name="RegisterButton" onclick="location.href='@Url.Action("SubmitRegister", "Home")'">Register</button>
+                                <button action="SubmitRegister" formmethod="post" type="submit" class="btn btn-primary" name="RegisterButton" onclick="sendRegister()">Register</button>
                             </td>
                             <td></td>
                         </tr>
