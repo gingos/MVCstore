@@ -1,5 +1,6 @@
 ﻿@{
     ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/Products_Layout.cshtml";
 }
 
 <div class="jumbotron">
@@ -16,18 +17,8 @@
 </div>
 
 <div class="row">
-    <div class="col-md-4">
-        <h2>Refresh Stock</h2>
-        <p>Coffee may run out, but never our products!</p>
-        <p><a class="btn btn-default" href="@Url.Action("showStock", "Stock")">Restock &raquo;</a></p>
-        
-        
-    </div>
-    <div class="col-md-4">
-        <h2></h2>
-        
-    </div>
-    <div class="col-md-4">
+    
+    <div align="left" class="col-md-4">
         <h2>Buy Products</h2>
         <p>We sell printers, PCs and laptops.</p>
         <p><a class="btn btn-default" href="@Url.Action("showProducts", "Products")">Our Products &raquo;</a></p>

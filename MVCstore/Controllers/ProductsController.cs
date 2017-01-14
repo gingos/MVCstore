@@ -14,41 +14,68 @@ namespace MVCstore.Controllers
         OrderDal orddal;
         ProductDal proddal;
         OrderViewModel ovm;
+        int custID;
         
-        public ProductsController()
-        {
-            orddal = new OrderDal();
-            ovm = new OrderViewModel();
-            proddal = new ProductDal();
-        }
 
         // GET: Products
         public ActionResult Index()
         {
+            int userID;
+            if (Session != null || Session["type"] == null || !((string)Session["type"]).Equals("Customer")   )
+            {
+                if (Session["userID"] != null)
+                    userID = (int)Session["userID"];
+            }
+            else
+            {
+                return RedirectToAction("my404", "Home");
+            }
+            
             return View();
         }
 
         // Products View
         public ActionResult getPCbyJSON()
         {
+            
+            if (Session == null || Session["type"] == null || !((string)Session["type"]).Equals("Customer"))
+            {
+                return RedirectToAction("my404", "Home");
+            }
+
             PCDal pcdal = new PCDal();
             List<PC> pcList = pcdal.PCs.ToList();   
             return Json(pcList, JsonRequestBehavior.AllowGet);
         }
         public ActionResult getPrinterByJSON()
         {
+            if (Session == null || Session["type"] == null ||  !((string)Session["type"]).Equals("Customer"))
+            {
+                return RedirectToAction("my404", "Home");
+            }
+
             PrinterDal prdal = new PrinterDal();
             List<Printer> printerList = prdal.printers.ToList();
             return Json(printerList, JsonRequestBehavior.AllowGet);
         }
         public ActionResult getLaptopByJSON()
         {
+            if (Session == null || Session["type"] == null || !((string)Session["type"]).Equals("Customer"))
+            {
+                return RedirectToAction("my404", "Home");
+            }
+
             LaptopDal lapdal = new LaptopDal();
             List<Laptop> lapList = lapdal.laptops.ToList();
             return Json(lapList, JsonRequestBehavior.AllowGet);
         }
         public ActionResult showProducts()
         {
+            if (Session == null || Session["type"] == null || !((string)Session["type"]).Equals("Customer"))
+            {
+                return RedirectToAction("my404", "Home");
+            }
+
             #region wrap all products in single model view (deprecated)
             /*
             List<Product> productList = new ProductDal().products.ToList();
@@ -102,10 +129,17 @@ namespace MVCstore.Controllers
         /// <returns>order object: model, price, purchased quantity</returns>
         public ActionResult checkStock(int quantityToBuy, string model, int price)
         {
-            Product prod = proddal.products.First(p => p.Model.Equals (model));
+            if (Session == null || Session["type"] == null || !((string)Session["type"]).Equals("Customer"))
+            {
+                return RedirectToAction("my404", "Home");
+            }
 
+            proddal = new ProductDal();
+            orddal = new OrderDal();
+            Product prod = proddal.products.First(p => p.Model.Equals (model));
+            
             Order order = new Order();
-            order.CustID = 1;
+            order.CustID = (int)Session["userID"];
             order.Model = model;
             order.Price = price;
 
@@ -137,8 +171,16 @@ namespace MVCstore.Controllers
         /// <returns> order view model, list</returns>
         public ActionResult showCart()
         {
-            ovm.order = new Order();
-            ovm.orderList = orddal.orders.Where(o=> o.shippedDate == null).ToList<Order>();
+            if (Session == null || Session["type"] == null || !((string)Session["type"]).Equals("Customer"))
+            {
+                return RedirectToAction("my404", "Home");
+            }
+
+            orddal = new OrderDal();
+            ovm = new OrderViewModel();
+            custID = (int)Session["userID"];
+            ovm.order = new Order(); 
+            ovm.orderList = orddal.orders.Where(o=> o.CustID == custID && o.shippedDate == null).ToList<Order>();
             return View(ovm);
         }
 
@@ -147,8 +189,14 @@ namespace MVCstore.Controllers
         /// triggered by "cash out" button
         /// </summary>
         /// <param name="custID"> customer the order belongs to</param>
-        public EmptyResult updateShipment(int custID)
+        public ActionResult updateShipment(int custID)
         {
+            if (Session == null || Session["type"] == null || !((string)Session["type"]).Equals("Customer"))
+            {
+                return RedirectToAction("my404", "Home");
+            }
+
+            orddal = new OrderDal();
             List<Order> olist = orddal.orders.Where(o => o.CustID == (custID)).ToList();
             olist.ForEach(o => o.shippedDate = DateTime.Now);
             orddal.SaveChanges();
@@ -162,13 +210,32 @@ namespace MVCstore.Controllers
         /// <returns></returns>
         public ActionResult viewHistory()
         {
+            if (Session == null || Session["type"] == null || !((string)Session["type"]).Equals("Customer"))
+            {
+                return RedirectToAction("my404", "Home");
+            }
+
+            ovm = new OrderViewModel();
+            orddal = new OrderDal();
+            custID = (int)Session["userID"];
             ovm.order = new Order();
-            ovm.orderList = orddal.orders.Where(o => o.CustID==1).ToList<Order>();
+            ovm.orderList = orddal.orders.Where(o => o.CustID== custID).ToList<Order>();
             return View(ovm);
         }
 
+        /// <summary>
+        /// search orders by model
+        /// </summary>
+        /// <returns></returns>
         public ActionResult searchOrder()
         {
+            if (Session == null || Session["type"] == null || !((string)Session["type"]).Equals("Customer"))
+            {
+                return RedirectToAction("my404", "Home");
+            }
+
+            ovm = new OrderViewModel();
+            orddal = new OrderDal();
             string searchValue = Request.Form["search_txt"].ToString();
             List<Order> olist = orddal.orders.Where(o => o.Model.Equals(searchValue)).ToList();
             ovm.orderList = olist;

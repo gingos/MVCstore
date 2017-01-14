@@ -169,12 +169,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Customers.cs" />
     <Compile Include="Models\Laptop.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\PC.cs" />
     <Compile Include="Models\Printer.cs" />
     <Compile Include="Models\Product.cs" />
-    <Compile Include="Models\Customers.cs" />
     <Compile Include="Models\StockRequest.cs" />
     <Compile Include="ModelView\OrderViewModel.cs" />
     <Compile Include="ModelView\ProductViewModel.cs" />
@@ -184,6 +184,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\my404.jpg" />
     <Content Include="Content\scrollTable.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -207,7 +208,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -232,6 +235,9 @@
     <Content Include="Views\Shared\Products_Layout.cshtml" />
     <Content Include="Views\Shared\Stock_Layout.cshtml" />
     <Content Include="Views\Stock\viewRequestsHistory.cshtml" />
+    <Content Include="Views\Home\IndexCustomers.cshtml" />
+    <Content Include="Views\Home\IndexEmployees.cshtml" />
+    <Content Include="Views\Home\my404.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

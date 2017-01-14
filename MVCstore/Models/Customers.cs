@@ -18,6 +18,7 @@ namespace MVCstore.Models
         [MaxLength(10, ErrorMessage ="I don't read that much")]
         public string LastName { get; set; }
 
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CustomerNumber { get; set; }
 

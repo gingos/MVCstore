@@ -123,7 +123,7 @@
                     "<td>" + laptopList[k].Screen + "</td>" +
                     "<td>" + laptopList[k].Price + "</td> "+
                     "<td><input type='text' id='laptop_count_" + k + "' value='0'/></div></td>" +
-                    "<td><input type='button' id='laptop_bt_" + k + "' value='Add to Cart' onclick=\"purchaseProcess($(\'#laptop_" + k + "\').val()," + laptopList[k].Model + "," + laptopList[k].Price + "," + "\'stock_txt_" + k + "\')\"></td>" +
+                    "<td><input type='button' id='laptop_bt_" + k + "' value='Add to Cart' onclick=\"purchaseProcess($(\'#laptop_count_" + k + "\').val()," + laptopList[k].Model + "," + laptopList[k].Price + "," + "\'stock_txt_" + k + "\')\"></td>" +
                     "<td id='stock_txt_" + k + "'></td>" +
                     "</tr>";
 
@@ -140,8 +140,8 @@
         //      -- add (return): notify quantity label
         //      -- enable "show cart" button
         function purchaseProcess(quantity, model, price, label) {
-            if (quantity <= 0) {
-                alert('please specify a positive quantity');
+            if (quantity <= 0 || ! isInt(quantity)) {
+                alert('please specify a positive numeirc quantity');
                 return;
             }
             
@@ -190,7 +190,13 @@
         function showButtonAfterPruchase() {
             $("#toCart_bt").show();
         }
-
+        function isInt(value) {
+            if (isNaN(value)) {
+                return false;
+            }
+            var x = parseFloat(value);
+            return (x | 0) === x;
+        }
         @*function addToCart(row_id) {
             alert(row_id);
             var row = document.getElementById(row_id).cells;

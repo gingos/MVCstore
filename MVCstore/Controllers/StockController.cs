@@ -14,17 +14,16 @@ namespace MVCstore.Controllers
         ProductDal proddal;
         stockRequestDal stockDal;
         RestockViewModel rvm;
+        int userID;
 
-        public StockController()
-        {
-            proddal = new ProductDal();
-            stockDal = new stockRequestDal();
-            rvm = new RestockViewModel();
-        }
 
         // GET: Stock
         public ActionResult Index()
         {
+            if (Session == null)
+            {
+                RedirectToAction("my404", "Home");
+            }
             return View();
         }
 
@@ -36,6 +35,14 @@ namespace MVCstore.Controllers
         /// <returns></returns>
         public ActionResult showStock()
         {
+            if (Session == null || Session["type"] == null || !((string)Session["type"]).Equals("Employee"))
+            {
+                return RedirectToAction("my404", "Home");
+            }
+            else
+            {
+                userID = (int)Session["userID"];
+            }
             return View();
         }
         
@@ -46,6 +53,15 @@ namespace MVCstore.Controllers
         /// <returns>products table in JSON format</returns>
         public ActionResult getProductsByJSON()
         {
+            if (Session == null || Session["type"] == null || !((string)Session["type"]).Equals("Employee"))
+            {
+                return RedirectToAction("my404", "Home");
+            }
+            else
+            {
+                userID = (int)Session["userID"];
+            }
+            proddal = new ProductDal();
             List<Product> prodList = proddal.products.ToList();
             return Json(prodList, JsonRequestBehavior.AllowGet);
         }
@@ -57,6 +73,15 @@ namespace MVCstore.Controllers
         /// <returns>products with 0 quantity table in JSON format</returns>
         public ActionResult getZeroQuantityByJSON()
         {
+            if (Session == null || Session["type"] == null || !((string)Session["type"]).Equals("Employee"))
+            {
+                return RedirectToAction("my404", "Home");
+            }
+            else
+            {
+                userID = (int)Session["userID"];
+            }
+            proddal = new ProductDal();
             List<Product> prodList = proddal.products.Where(p => p.Quantity == 0).ToList();
             return Json(prodList, JsonRequestBehavior.AllowGet);
         }
@@ -70,7 +95,18 @@ namespace MVCstore.Controllers
         /// <returns></returns>
         public ActionResult restockRequest(int quantityToAdd, string model)
         {
+            if (Session == null || Session["type"] == null || !((string)Session["type"]).Equals("Employee"))
+            {
+                return RedirectToAction("my404", "Home");
+            }
+            else
+            {
+                int empID = (int)Session["userID"];
+            }
+            stockDal = new stockRequestDal();
             StockRequest sr = null;
+            
+            //add: stock requests by empID
             List<StockRequest> srlist = stockDal.stockRequests.Where(s => s.arrivedDate == null).ToList();
             sr = srlist.FirstOrDefault(s => s.Model == model);
             if (sr != null)
@@ -96,16 +132,49 @@ namespace MVCstore.Controllers
 
         //showRestockRequests view
 
+        /// <summary>
+        /// show all restock requests submitted by active employee
+        /// </summary>
+        /// <returns></returns>
         public ActionResult showRestockRequests()
         {
+            if (Session == null || Session["type"] == null || !((string)Session["type"]).Equals("Employee"))
+            {
+                return RedirectToAction("my404", "Home");
+            }else
+            {
+                int empID = (int)Session["userID"];
+            }
+
+            rvm = new RestockViewModel();
+            stockDal = new stockRequestDal();
             rvm.sr = new StockRequest();
+            
+            //add: stock requests by empID
             rvm.stockRequestList = stockDal.stockRequests.Where(sr => sr.arrivedDate == null).ToList<StockRequest>();
             return View(rvm);
         }
-        public EmptyResult restockProducts()
+
+        /// <summary>
+        /// update products quantity with active employee's request(s)
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult restockProducts()
         {
+            if (Session == null || Session["type"] == null || !((string)Session["type"]).Equals("Employee"))
+            {
+                return RedirectToAction("my404", "Home");
+            }
+            else
+            {
+                int empID = (int)Session["userID"];
+            }
+
+            stockDal = new stockRequestDal();
+            
+            //add: stock requests by empID
             List<StockRequest> srlist = stockDal.stockRequests.Where(sr => sr.arrivedDate == null).ToList();
-            //List<Product> plist = proddal.products.ToList();
+            
             string query = "UPDATE Products " +
                             "SET " +
                             "Products.Quantity = Products.Quantity + s.Quantity " + 
@@ -115,7 +184,7 @@ namespace MVCstore.Controllers
                             "(SELECT * FROM stockOrders WHERE arrivedDate IS NULL) s " +
                             "ON " +
                             "Products.Model = s.Model; ";
-
+            proddal = new ProductDal();
             proddal.Database.ExecuteSqlCommand(query);
 
             srlist.ForEach(sr => sr.arrivedDate = DateTime.Now);
@@ -124,9 +193,27 @@ namespace MVCstore.Controllers
         }
 
         // show Requests History view
+
+        /// <summary>
+        /// show all requests, both pending and approved
+        /// </summary>
+        /// <returns></returns>
         public ActionResult viewRequestsHistory()
         {
+            if (Session == null || Session["type"] == null || !((string)Session["type"]).Equals("Employee"))
+            {
+                return RedirectToAction("my404", "Home");
+            }
+            else
+            {
+                int empID = (int)Session["userID"];
+            }
+
+            stockDal = new stockRequestDal();
+            rvm = new RestockViewModel();
             rvm.sr = new StockRequest();
+            
+            //add: stock requests by empID
             rvm.stockRequestList = stockDal.stockRequests.ToList<StockRequest>();
             return View(rvm);
         }
