@@ -28,8 +28,6 @@
             
      }
 
-
-
 </script>
 
 <body>
@@ -42,73 +40,27 @@
             <div>
                     <table>
                         <tr>
-                            <th><legend>Register</legend></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th><legend>Login</legend></th>
+                            <th><legend>Register</legend></th>                
                         </tr>
-                       
                         <tr>
                             <td>First Name</td>
                             <td>@Html.TextBoxFor(m => m.FirstName)</td>
                             <td><span style="color:red">@Html.ValidationMessageFor(x => x.FirstName)</span></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>Email</td>
-                            <td><input type="text" id="logEmail" onkeyup="verifyEmail()" /></td>
-                            <td id="emailException"></td>
-
                         </tr>
-                        <col width="100" />
                         <tr>
                             <td>Last Name</td>
                             <td>@Html.TextBoxFor(m => m.LastName)</td>
                             <td><span style="color:red">@Html.ValidationMessageFor(x => x.LastName)</span></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>Password</td>
-                            <td><input type="password" id="logPassword" /></td>
-                            <td><span style="color:red"></span></td>
                         </tr>
-                        <col width="100" />
                         <tr>
                             <td>Email Address</td>
                             <td>@Html.TextBoxFor(m => m.Email)</td>
                             <td><span style="color:red">@Html.ValidationMessageFor(x => x.Email)</span></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio"> Check if you are an Emloyee
-                                    </label>
-                                </div>
-                            </td>
-
                         </tr>
-                        <col width="100" />
                         <tr>
                             <td>Confirm Email Address</td>
                             <td><input type="text" id="EmailConfirmation" onkeyup="confirmEmail()" /></td>
                             <td id="emailConfirmationException"><span style="color:red"></span></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td><input type="submit" class="btn btn-primary" name="LoginButton" /></td>
-                            
                         </tr>
                         <tr></tr>
                         <tr>
@@ -136,11 +88,8 @@
                             <td></td>
                         </tr>
                     </table>
-                
             </div>
-
         </fieldset>
         <p><a class="btn btn-primary" href="@Url.Action("MockLogin", "Home")">Mock Login &raquo;</a></p>
     }
-
      </body>

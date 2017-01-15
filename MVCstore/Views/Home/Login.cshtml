@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Login</h2>
+
+@using (Html.BeginForm("SubmitLogin", "Home", FormMethod.Post))
+{
+    <div>
+        <fieldset>
+            <table>
+                <tr>
+                    <td>Email</td>
+                    <td>@Html.TextBox("logEmail")</td>
+                    <td id="emailException"></td>
+                </tr>
+                <tr>
+                    <td>Password</td>
+                    <td>@Html.Password("logPassword")</td>
+                    <td><span style="color:red"></span></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="radio">
+                            <label>
+                                <input id="Radio" type="radio" name="Employee" /><label>Check if you are an Employee of Borat</label>
+                            </label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="submit" class="btn btn-primary" name="SubmitLogin" value="Login" /></td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+}
+

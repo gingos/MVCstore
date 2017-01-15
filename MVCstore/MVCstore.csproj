@@ -157,9 +157,11 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OpenController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\StockController.cs" />
     <Compile Include="DAL\CustomersDal.cs" />
+    <Compile Include="DAL\EmployeeDAL.cs" />
     <Compile Include="DAL\LaptopDal.cs" />
     <Compile Include="DAL\OrderDal.cs" />
     <Compile Include="DAL\PCDal.cs" />
@@ -170,6 +172,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Customers.cs" />
+    <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\Laptop.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\PC.cs" />
@@ -238,9 +241,12 @@
     <Content Include="Views\Home\IndexCustomers.cshtml" />
     <Content Include="Views\Home\IndexEmployees.cshtml" />
     <Content Include="Views\Home\my404.cshtml" />
+    <Content Include="Views\Home\Enter.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Open\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -15,7 +15,17 @@ namespace MVCstore.Controllers
     public class HomeController : Controller
     {
         CustomersDal custDal = null;
-        
+
+        public ActionResult Enter()
+        {
+            return View("Enter");
+        }
+
+        public ActionResult Login()
+        {
+
+            return View();
+        }
         public ActionResult my404()
         {
             return View();
@@ -101,7 +111,7 @@ namespace MVCstore.Controllers
             return View();
         }
 
-        public ActionResult Login()
+      /*  public ActionResult Login()
         {
             int userID;
             if (Session != null)
@@ -114,7 +124,7 @@ namespace MVCstore.Controllers
                 RedirectToAction("my404", "Home");
             }
             return View();
-        }
+        } */
 
         public ActionResult Register()
         {
@@ -145,9 +155,33 @@ namespace MVCstore.Controllers
                 return View("Register", new Customers());
         }
 
-        public ActionResult SubmitLogin(Customers reg)
+        public ActionResult SubmitLogin()
         {
-            Customers temp = new Customers();
+            string type = "Customer";
+            if (Request.Form["Employee"] != null)
+            {
+                type = "Employee";
+
+                EmployeeDAL empDal = new EmployeeDAL();
+                List<Employee> empList = empDal.employees.ToList();
+                foreach (Employee emp in empList)
+                {
+                    string emp_logEmail = Request.Form["logEmail"];
+                    string emp_logPassword = Request.Form["logPassword"];
+                    if (emp_logEmail.Equals(emp.EmployeeEmail))
+                    {
+                        if (emp_logPassword.Equals(emp.EmployeePassword))
+                        {
+                            Session["UserID"] = emp.EmployeeNumber;
+                            Session["type"] = type;
+                            return View("IndexEmployees");
+                        }
+                        return View("Login");
+                    }
+                    return View("Login");
+                }
+            }
+            Customers temp = new Customers(); 
             string logEmail = Request.Form["logEmail"];
             string logPassword = Request.Form["logPassword"];
             temp.PasswordHash = logPassword;
@@ -158,17 +192,20 @@ namespace MVCstore.Controllers
             {
                 if (cust.Email == logEmail)
                 {
-
+                    cust.MD5Hash();
                     if (cust.PasswordHash == temp.PasswordHash)
                     {
+                       
                         temp = cust;
-                        return View("Index", temp);
+                        Session["UserID"] = temp.CustomerNumber;
+                        Session["type"] = type;
+                        return View("IndexCustomers");
                     }
+                    return View("Login");
                 }
-                else
-                    return View("Register", reg);
+                return View("Login");
             }
-            return View("Register", reg);
+            return View("Login");
         }
 
         public ActionResult MockLogin()
