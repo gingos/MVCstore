@@ -41,7 +41,7 @@ namespace MVCstore.Models
         {
             var bytes = new UTF8Encoding().GetBytes(PasswordHash);
             var hashBytes = System.Security.Cryptography.MD5.Create().ComputeHash(bytes);
-            Convert.ToBase64String(hashBytes);
+            this.PasswordHash = Convert.ToBase64String(hashBytes);
         }
     }
 }

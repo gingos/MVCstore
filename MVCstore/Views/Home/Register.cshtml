@@ -7,63 +7,29 @@
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
 <script language="javascript">  
-    /*
-     function validatePassword() {
-         var password = document.getElementById("PasswordHash");
-         var confirm_password = document.getElementById("confirm_password");
-         var password_exception = document.getElementById("passwordException");
-         if (password.value != confirm_password.value) {
-            password_exception.innerHTML = "Passwords Don't Match";
-            password_exception.style.color = "red";
-         } else {
-            password_exception.setCustomValidity('');
+    function confirmPassword() {
+        var password = document.getElementById("PasswordHash").value;
+        var password_con = document.getElementById("confirm_password").value;
+        if (password != password_con) {
+            passwordException.innerHTML = "Password Not Matching!";
+        }
+        else
+            passwordException.innerHTML = '';
+
+    }
+     function confirmEmail() {
+         var email = document.getElementById("Email").value;
+         var confemail = document.getElementById("EmailConfirmation").value;
+         if (email != confemail) {
+             emailConfirmationException.innerHTML = "Email Not Matching!";
          }
+         else
+             emailConfirmationException.innerHTML = '';
+            
      }
 
-    password.onchange = validatePassword;
-    confirm_password.onkeyup = validatePassword;
-
-    function validateEmail() {
-        var Email = document.getElementById("Email");
-        var confirm_Email = document.getElementById("EmailConfirmation");
-        var confirmation_exception = document.getElementById("emailConfirmationException")
-        if (Email.value != confirm_Email.value) {
-            confirmation_exception.innerHTML = "Email's Don't Match";
-            confirmation_exception.style.color = "red";
-        } else {
-            confirmation_exception.setCustomValidity('');
-        }
-    }
-
-    Email.onchange = validateEmail;
-    confirm_Email.onkeyup = validateEmail;
-
-    function verifyEmail() {
-        var logEmail = document.getElementById("logEmail");
-        var emailException = document.getElementById("emailException");
-        if (!logEmail.textContent.match("[a-z0-9._%+-]+&#64;[a-z0-9.-]+.[a-z]{2,4}$")){
-            emailException.innerHTML = "please enter a Email address";
-            emailException.style.color = "red";
-            }
-    }
-    logEmail.onchange = verifyEmail();
-    logEmail.onkeyup = verifyEmail();
 
 
-
-    function sendRegister(){
-    var FirstName = document.getElementById("FirstName");
-    var LastName = document.getElementById("LastName");
-    var Email = document.getElementById("Email");
-    var PasswordHash = document.getElementById("PasswordHash");
-    var PhoneNumber = document.getElementById("PhoneNumber");
-    var data = { FirstName: FirstName, LastName: LastName, Email: Email, PasswordHash: PasswordHash, PhoneNumber: PhoneNumber };
-   
-        $.post(url, data, function () {
-            alert("Welcome Friend, Please Login with your Email address and Password")
-        });
-    
-    }*/
 </script>
 
 <body>
@@ -134,7 +100,7 @@
                         <col width="100" />
                         <tr>
                             <td>Confirm Email Address</td>
-                            <td><input type="text" id="EmailConfirmation" onkeyup="validateEmail()" /></td>
+                            <td><input type="text" id="EmailConfirmation" onkeyup="confirmEmail()" /></td>
                             <td id="emailConfirmationException"><span style="color:red"></span></td>
                             <td></td>
                             <td></td>

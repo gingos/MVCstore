@@ -14,6 +14,6 @@ namespace MVCstore.DAL
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Customers>().ToTable("Customers");
         }
-        public DbSet<Customers> customers { get; set; }
+        public DbSet<Customers> Customers { get; set; }
     }
 }

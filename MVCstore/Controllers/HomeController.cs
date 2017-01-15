@@ -125,8 +125,7 @@ namespace MVCstore.Controllers
 
         public ActionResult SubmitRegister()
         {
-
-          
+                      
             if (ModelState.IsValid) {
                 Customers cust = new Customers();
 
@@ -137,7 +136,7 @@ namespace MVCstore.Controllers
                 cust.PhoneNumber = Request.Form["PhoneNumber"];
                 cust.MD5Hash();
                   custDal = new CustomersDal();
-                   custDal.customers.Add(cust);
+                    custDal.Customers.Add(cust);
                    custDal.SaveChanges();  
 
                 return RedirectToAction("Register", cust);
@@ -148,14 +147,28 @@ namespace MVCstore.Controllers
 
         public ActionResult SubmitLogin(Customers reg)
         {
-            if (ModelState.IsValid)
+            Customers temp = new Customers();
+            string logEmail = Request.Form["logEmail"];
+            string logPassword = Request.Form["logPassword"];
+            temp.PasswordHash = logPassword;
+            temp.MD5Hash();
+            custDal = new CustomersDal();
+            List<Customers> custList = custDal.Customers.ToList();
+            foreach (Customers cust in custList)
             {
-                
-                
-                return View("Index", reg);
+                if (cust.Email == logEmail)
+                {
+
+                    if (cust.PasswordHash == temp.PasswordHash)
+                    {
+                        temp = cust;
+                        return View("Index", temp);
+                    }
+                }
+                else
+                    return View("Register", reg);
             }
-            else
-                return View("Register", reg);
+            return View("Register", reg);
         }
 
         public ActionResult MockLogin()
