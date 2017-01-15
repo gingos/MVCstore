@@ -26,7 +26,7 @@ namespace MVCstore.Models
         [RegularExpression ("[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$",ErrorMessage = "what have i asked? a frikin email?")]
         public string Email { get; set; }
 
-        [RegularExpression("[05+0-9]",ErrorMessage ="please enter a phone number starting with 05...")]
+       
         public string PhoneNumber { get; set; }
 
         [Required]

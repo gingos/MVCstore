@@ -14,7 +14,7 @@ namespace MVCstore.Controllers
 {
     public class HomeController : Controller
     {
-        CustomersDal custDal;
+        CustomersDal custDal = null;
         
         public ActionResult my404()
         {
@@ -118,30 +118,29 @@ namespace MVCstore.Controllers
 
         public ActionResult Register()
         {
-            
-            return View("Register", new Customers());
+
+          return View(new Customers());
         }
 
-       
+
         public ActionResult SubmitRegister()
         {
-            
-           
+
+          
             if (ModelState.IsValid) {
-                custDal = new CustomersDal();
                 Customers cust = new Customers();
 
-                cust.FirstName = Request.Form["FirstName"].ToString();
-                cust.LastName = Request.Form["LastName"].ToString();
-                cust.Email = Request.Form["Email"].ToString();
-                cust.PasswordHash = Request.Form["PasswordHash"].ToString();
-                cust.PhoneNumber = Request.Form["PhoneNumber"].ToString();
-
+                cust.FirstName = Request.Form["FirstName"];
+                cust.LastName = Request.Form["LastName"];
+                cust.Email = Request.Form["Email"];
+                cust.PasswordHash = Request.Form["PasswordHash"];
+                cust.PhoneNumber = Request.Form["PhoneNumber"];
                 cust.MD5Hash();
+                  custDal = new CustomersDal();
+                   custDal.customers.Add(cust);
+                   custDal.SaveChanges();  
 
-                custDal.customers.Add(cust);
-                custDal.SaveChanges();              
-                return RedirectToAction("SubmitLogin", cust);
+                return RedirectToAction("Register", cust);
             }
             else
                 return View("Register", new Customers());
