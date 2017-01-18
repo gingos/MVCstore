@@ -15,13 +15,35 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Borat Express", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                </button>    
+                @Html.ActionLink("Borat Express", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })             
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@{
+                            if (Session["type"].Equals("Customer"))
+                            {
+                                Html.ActionLink("Home", "IndexCustomer", "Home");
+                            }
+                            else
+                            { 
+                                Html.ActionLink("Home", "IndexEmployee", "Home");
+                            }
+
+                         }
+                    </li>
+                    <li>@{
+                        if (Session["type"].Equals("Customer"))
+                        {
+                            Html.ActionLink("About", "IndexCustomer", "Home");
+                        }
+                        else
+                        {
+                            Html.ActionLink("About", "IndexEmployee", "Home");
+                        }
+
+                        }
+                    </li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>
             </div>

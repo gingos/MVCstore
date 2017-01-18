@@ -1,6 +1,8 @@
 ﻿
 @model MVCstore.Models.Customers
-
+@{
+    Layout = "~/Views/Shared/EnterLayout.cshtml";
+}
 
 <script src="~/Scripts/jquery-1.10.2.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
@@ -90,6 +92,5 @@
                     </table>
             </div>
         </fieldset>
-        <p><a class="btn btn-primary" href="@Url.Action("MockLogin", "Home")">Mock Login &raquo;</a></p>
     }
      </body>

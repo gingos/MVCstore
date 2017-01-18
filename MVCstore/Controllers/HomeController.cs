@@ -21,26 +21,17 @@ namespace MVCstore.Controllers
             return View("Enter");
         }
 
+        public ActionResult Login()
+        {
+
+            return View();
+        }
+
         public ActionResult my404()
         {
             return View();
         }
-        /*
-        public ActionResult Index()
-        {
-            int userID;
-            if (Session != null && Session["type"] != null)
-            {
-                if (Session["userID"] != null)
-                    userID = (int)Session["userID"];
-            }
-            else
-            {
-                return RedirectToAction("my404", "Home");
-            }
-            return View();
-        }
-        */
+       
         public ActionResult IndexEmployees()
         {
             int userID;
@@ -69,6 +60,16 @@ namespace MVCstore.Controllers
                 return RedirectToAction("my404", "Home");
             }
             return View("IndexCustomers");
+        }
+
+        public ActionResult GuestAbout()
+        {
+            return View();
+        }
+
+        public ActionResult GuestContact()
+        {
+            return View();
         }
 
         public ActionResult About()
@@ -105,26 +106,12 @@ namespace MVCstore.Controllers
             return View();
         }
 
-      /*  public ActionResult Login()
-        {
-            int userID;
-            if (Session != null)
-            {
-                if (Session["userID"] != null)
-                    userID = (int)Session["userID"];
-            }
-            else
-            {
-                RedirectToAction("my404", "Home");
-            }
-            return View();
-        } */
-
         public ActionResult Register()
         {
 
           return View(new Customers());
         }
+
 
         public ActionResult SubmitRegister()
         {
@@ -276,27 +263,6 @@ namespace MVCstore.Controllers
                 }
             }
         }
-
-        public ActionResult MockLogin()
-        {
-            Session["userID"] = 2;
-            Session["Type"] = "Customer";
-
-
-            
-            //return RedirectToAction("Index");
-
-            int user = (int)Session["userID"];
-            string type = (string)Session["Type"];
-
-            if (type.Equals("Employee"))
-                return RedirectToAction("IndexEmployees", "Home");
-            else if (type.Equals("Customer"))
-                return RedirectToAction("IndexCustomers", "Home");
-            else
-                return RedirectToAction("my404", "Home");
-        }
-
 
     }
 }
