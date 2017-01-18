@@ -142,7 +142,7 @@ namespace MVCstore.Controllers
                     custDal.Customers.Add(cust);
                    custDal.SaveChanges();  
 
-                return RedirectToAction("Register", cust);
+                return View("Login");
             }
             else
                 return View("Register", new Customers());
@@ -165,8 +165,8 @@ namespace MVCstore.Controllers
                 List<Employee> empList = empDal.employees.ToList();
                 foreach (Employee emp in empList)
                 {
-                    string emp_logEmail = Request.Form["logEmail"];
-                    string emp_logPassword = Request.Form["logPassword"];
+                    string emp_logEmail = Request.Form["EmployeeEmail"];
+                    string emp_logPassword = Request.Form["EmployeePassword"];
                     if (emp_logEmail.Equals(emp.EmployeeEmail))
                     {
                         if (emp_logPassword.Equals(emp.EmployeePassword))
@@ -175,14 +175,14 @@ namespace MVCstore.Controllers
                             Session["type"] = type;
                             return View("IndexEmployees");
                         }
-                        return View("Login");
-                    }
-                    return View("Login");
+                        TempData["Fail"] = "Incorrect Detail InputI";
+                        return RedirectToAction("Login", "Home");
+                    } 
                 }
             }
             Customers temp = new Customers(); 
-            string logEmail = Request.Form["logEmail"];
-            string logPassword = Request.Form["logPassword"];
+            string logEmail = Request.Form["EmployeeEmail"];
+            string logPassword = Request.Form["EmployeePassword"];
             temp.PasswordHash = logPassword;
             temp.MD5Hash();
             custDal = new CustomersDal();
@@ -192,7 +192,7 @@ namespace MVCstore.Controllers
                 if (cust.Email == logEmail)
                 {
                     cust.MD5Hash();
-                    if (cust.PasswordHash == temp.PasswordHash)
+                    if (cust.PasswordHash.Equals(temp.PasswordHash))
                     {
                        
                         temp = cust;
@@ -200,11 +200,12 @@ namespace MVCstore.Controllers
                         Session["type"] = type;
                         return View("IndexCustomers");
                     }
-                    return View("Login");
+                    TempData["Fail"] = "Incorrect Detail Input";
+                    return RedirectToAction("Login", "Home");
                 }
-                return View("Login");
             }
-            return View("Login");
+            TempData["Fail"] = "Incorrect Detail Input";
+            return RedirectToAction("Login", "Home");
         }
 
         public ActionResult MockLogin()

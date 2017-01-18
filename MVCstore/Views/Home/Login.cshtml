@@ -1,4 +1,4 @@
-﻿
+﻿@model MVCstore.Models.Employee
 @{
     ViewBag.Title = "Login";
 }
@@ -7,18 +7,25 @@
 
 @using (Html.BeginForm("SubmitLogin", "Home", FormMethod.Post))
 {
+    
     <div>
         <fieldset>
             <table>
                 <tr>
                     <td>Email</td>
-                    <td>@Html.TextBox("logEmail")</td>
+                    <td>@Html.TextBoxFor(m=> m.EmployeeEmail)</td>
                     <td id="emailException"></td>
                 </tr>
                 <tr>
                     <td>Password</td>
-                    <td>@Html.Password("logPassword")</td>
+                    <td>@Html.PasswordFor(m=> m.EmployeePassword)</td>
                     <td><span style="color:red"></span></td>
+                    <td>
+                        @if (TempData["Fail"] != null)
+                    {
+                        <p class="alert alert" id="failMessage">@TempData["Fail"]</p>
+                    }
+                </td>
                 </tr>
                 <tr>
                     <td>
@@ -31,6 +38,7 @@
                 </tr>
                 <tr>
                     <td><input type="submit" class="btn btn-primary" name="SubmitLogin" value="Login" /></td>
+                    
                 </tr>
             </table>
         </fieldset>
