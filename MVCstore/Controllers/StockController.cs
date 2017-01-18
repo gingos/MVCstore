@@ -217,5 +217,15 @@ namespace MVCstore.Controllers
             rvm.stockRequestList = stockDal.stockRequests.ToList<StockRequest>();
             return View(rvm);
         }
+
+        /// <summary>
+        /// Delete all Session Key-Value items, and return to main menu
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult LogOut()
+        {
+            Session.Clear();
+            return RedirectToAction("Enter", "Home");
+        }
     }
 }

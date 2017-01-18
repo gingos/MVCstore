@@ -17,7 +17,7 @@ namespace MVCstore.Models
 
         public string EmployeeEmail { get; set; }
 
-        public string Salary { get; set; }
+        public int Salary { get; set; }
 
         public bool mode { get; set; }
 
