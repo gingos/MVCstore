@@ -61,7 +61,7 @@ namespace MVCstore.Controllers
             }
             return View("IndexCustomers");
         }
-        
+
         public ActionResult GuestAbout()
         {
             return View();
@@ -111,7 +111,8 @@ namespace MVCstore.Controllers
 
           return View(new Customers());
         }
-        
+
+
         public ActionResult SubmitRegister()
         {
                       
@@ -132,6 +133,12 @@ namespace MVCstore.Controllers
             }
             else
                 return View("Register", new Customers());
+        }
+
+        public ActionResult Login()
+        {
+
+            return View();
         }
 
         public ActionResult SubmitLogin()
@@ -188,5 +195,5 @@ namespace MVCstore.Controllers
             return RedirectToAction("Login", "Home");
         }
 
-     }
+    }
 }
