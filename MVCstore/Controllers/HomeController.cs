@@ -135,67 +135,6 @@ namespace MVCstore.Controllers
                 return View("Register", new Customers());
         }
 
-        public ActionResult Login()
-        {
-
-            return View();
-        }
-        /*
-        public ActionResult SubmitLogin()
-        {
-            string type = "Customer";
-            if (Request.Form["Employee"] != null)
-            {
-                type = "Employee";
-
-                EmployeeDAL empDal = new EmployeeDAL();
-                List<Employee> empList = empDal.employees.ToList();
-                foreach (Employee emp in empList)
-                {
-                    string emp_logEmail = Request.Form["EmployeeEmail"];
-                    string emp_logPassword = Request.Form["EmployeePassword"];
-                    if (emp_logEmail.Equals(emp.EmployeeEmail))
-                    {
-                        if (emp_logPassword.Equals(emp.EmployeePassword))
-                        {
-                            Session["UserID"] = emp.EmployeeNumber;
-                            Session["type"] = type;
-                            return View("IndexEmployees");
-                        }
-                        TempData["Fail"] = "Incorrect Detail InputI";
-                        return RedirectToAction("Login", "Home");
-                    } 
-                }
-            }
-            Customers temp = new Customers(); 
-            string logEmail = Request.Form["EmployeeEmail"];
-            string logPassword = Request.Form["EmployeePassword"];
-            temp.PasswordHash = logPassword;
-            temp.MD5Hash();
-            custDal = new CustomersDal();
-            List<Customers> custList = custDal.Customers.ToList();
-            foreach (Customers cust in custList)
-            {
-                if (cust.Email == logEmail)
-                {
-                    cust.MD5Hash();
-                    if (cust.PasswordHash.Equals(temp.PasswordHash))
-                    {
-                       
-                        temp = cust;
-                        Session["UserID"] = temp.CustomerNumber;
-                        Session["type"] = type;
-                        return View("IndexCustomers");
-                    }
-                    TempData["Fail"] = "Incorrect Detail Input";
-                    return RedirectToAction("Login", "Home");
-                }
-            }
-            TempData["Fail"] = "Incorrect Detail Input";
-            return RedirectToAction("Login", "Home");
-        }
-        */
-
         public ActionResult SubmitLogin()
         {
 

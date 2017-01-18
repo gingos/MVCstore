@@ -16,14 +16,12 @@
             <table>
                 <tr>
                     <td>Email</td>
-                    @*<td>@Html.TextBoxFor(m=> m.EmployeeEmail)</td>*@
                     <td><input type='text' id='logEmail' name="logEmail" value='Enter Email'/></td>
                     <td id="emailException"></td>
                 </tr>
                 <tr>
                     <td>Password</td>
-                    @*<td>@Html.PasswordFor(m=> m.EmployeePassword)</td>*@
-                    <td><input type='text' id='logPassword' name="logPassword" value='Enter Password' /></td>
+                    <td><input type='password' id='logPassword' name="logPassword" value='Enter Password' /></td>
                     <td><span style="color:red"></span></td>
                     <td>
                         @if (TempData["Fail"] != null)
