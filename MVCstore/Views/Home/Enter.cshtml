@@ -5,8 +5,14 @@
 @{
     Layout = "~/Views/Shared/EnterLayout.cshtml";
 }
-
-<h2 align="center">Select Sign Up or Log In</h2>
+<style>
+    body{
+        background-image: url("http://tinyurl.com/javcnwk");
+        background-size: cover
+        
+    }
+</style>
+<h2 align="center"><span style="color:white">Select Sign Up or Log In</span></h2>
 
 <form  action="@Url.Action("Register","Home")" method="post">
     <div align ="center">
@@ -20,3 +26,8 @@
         <input id="Submit1" type="submit" class="btn btn-primary" name="Login" value="Login" href="@Url.Action("Login", "Home")" />
     </div>
 </form>
+<br />
+<br />
+<div align="center">
+    <span style="color:white"><text>"Although Kazakhstan a glorious country, it have a problem, too: economic, social, and Jew. - Borat "</span>
+</div>
