@@ -2,6 +2,9 @@
 @{
     ViewBag.Title = "Login";
 }
+@{
+    Layout = "~/Views/Shared/EnterLayout.cshtml";
+}
 
 <h2>Login</h2>
 
@@ -19,13 +22,11 @@
                 <tr>
                     <td>Password</td>
                     <td>@Html.PasswordFor(m=> m.EmployeePassword)</td>
-                    <td><span style="color:red"></span></td>
-                    <td>
-                        @if (TempData["Fail"] != null)
-                    {
-                        <p class="alert alert" id="failMessage">@TempData["Fail"]</p>
-                    }
-                </td>
+                    <td>@if (TempData["Fail"] != null)
+                        {
+                           <p class="alert alert" id="failMessage">@TempData["Fail"]</p>
+                        }   
+                    </td>
                 </tr>
                 <tr>
                     <td>

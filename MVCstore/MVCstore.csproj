@@ -245,6 +245,8 @@
     <Content Include="Views\Home\Enter.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Shared\EnterLayout.cshtml" />
+    <Content Include="Views\Home\GuestAbout.cshtml" />
+    <Content Include="Views\Home\GuestContact.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Open\" />
