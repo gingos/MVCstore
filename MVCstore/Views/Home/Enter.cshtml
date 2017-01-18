@@ -6,18 +6,17 @@
     Layout = "~/Views/Shared/EnterLayout.cshtml";
 }
 
-<h2>Enter</h2>
+<h2 align="center">Select Sign Up or Log In</h2>
 
-<form action="@Url.Action("Register","Home")" method="post">
-    <div>
+<form  action="@Url.Action("Register","Home")" method="post">
+    <div align ="center">
         <input id="Submit1" type="submit" class="btn btn-primary" name="Register" value="Register" href="@Url.Action("Register", "Home")" />
-        
     </div>
 </form>
 <br />
-<br />
-<form action="@Url.Action("Login","Home")" method="post">
-    <div>
+
+<form " action="@Url.Action("Login","Home")" method="post">
+    <div align="center">
         <input id="Submit1" type="submit" class="btn btn-primary" name="Login" value="Login" href="@Url.Action("Login", "Home")" />
     </div>
 </form>

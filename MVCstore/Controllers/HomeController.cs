@@ -136,56 +136,70 @@ namespace MVCstore.Controllers
 
         public ActionResult SubmitLogin()
         {
-            string type = "Customer";
-            if (Request.Form["Employee"] != null)
-            {
-                type = "Employee";
+
+            string logEmail = Request.Form["logEmail"];
+            string logPassword = Request.Form["logPassword"];
+            if (Request.Form["typeSwitch"] != null){
+                //search for match in Employees DAL
 
                 EmployeeDAL empDal = new EmployeeDAL();
-                List<Employee> empList = empDal.employees.ToList();
-                foreach (Employee emp in empList)
+                List<Employee> empList = empDal.employees.Where(e => e.EmployeeEmail.Equals(logEmail)).ToList();
+                if (empList.Count == 0)
                 {
-                    string emp_logEmail = Request.Form["EmployeeEmail"];
-                    string emp_logPassword = Request.Form["EmployeePassword"];
-                    if (emp_logEmail.Equals(emp.EmployeeEmail))
-                    {
-                        if (emp_logPassword.Equals(emp.EmployeePassword))
-                        {
-                            Session["UserID"] = emp.EmployeeNumber;
-                            Session["type"] = type;
-                            return View("IndexEmployees");
-                        }
-                        TempData["Fail"] = "Incorrect Detail InputI";
-                        return RedirectToAction("Login", "Home");
-                    } 
-                }
-            }
-            Customers temp = new Customers(); 
-            string logEmail = Request.Form["EmployeeEmail"];
-            string logPassword = Request.Form["EmployeePassword"];
-            temp.PasswordHash = logPassword;
-            temp.MD5Hash();
-            custDal = new CustomersDal();
-            List<Customers> custList = custDal.Customers.ToList();
-            foreach (Customers cust in custList)
-            {
-                if (cust.Email == logEmail)
-                {
-                    cust.MD5Hash();
-                    if (cust.PasswordHash.Equals(temp.PasswordHash))
-                    {
-                       
-                        temp = cust;
-                        Session["UserID"] = temp.CustomerNumber;
-                        Session["type"] = type;
-                        return View("IndexCustomers");
-                    }
-                    TempData["Fail"] = "Incorrect Detail Input";
+                    // no such email in database
+                    TempData["fail"] = "Incorrect Detail Input";
                     return RedirectToAction("Login", "Home");
                 }
+                else
+                {
+                    //found employee email match, try password match
+                    Employee e = empList[0];
+                    if (logPassword.Equals(e.EmployeePassword))
+                    {
+                        Session["UserID"] = empList[0].EmployeeNumber;
+                        Session["type"] = "Employee";
+                        return View("IndexEmployees");
+                    }
+                    else
+                    {
+                        //password doesn't match email
+                        TempData["fail"] = "Incorrect Detail Input";
+                        return RedirectToAction("Login", "Home");
+                    }
+                }
             }
-            TempData["Fail"] = "Incorrect Detail Input";
-            return RedirectToAction("Login", "Home");
+            else
+            {
+                ////search for match in Customers DAL
+                Customers temp = new Customers();
+                temp.Email = logEmail;
+                temp.PasswordHash = logPassword;
+                temp.MD5Hash();
+                custDal = new CustomersDal();
+                List<Customers> custList = custDal.Customers.Where(c => c.Email.Equals(temp.Email)).ToList();
+                if (custList.Count == 0)
+                {
+                    TempData["fail"] = "Incorrect Detail Input";
+                    return RedirectToAction("Login", "Home");
+                }
+                else
+                {
+                    //found customer email match, try password match
+                    Customers c = custList[0];
+                    if (c.PasswordHash.Equals(temp.PasswordHash))
+                    {
+                        Session["UserID"] = c.CustomerNumber;
+                        Session["type"] = "Customer";
+                        return View("IndexCustomers");
+                    }
+                    else
+                    {
+                        // password doesn't match email
+                        TempData["fail"] = "Incorrect Detail Input";
+                        return RedirectToAction("Login", "Home");
+                    }
+                }
+            }
         }
 
     }
