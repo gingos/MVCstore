@@ -21,11 +21,6 @@ namespace MVCstore.Controllers
             return View("Enter");
         }
 
-        public ActionResult Login()
-        {
-
-            return View();
-        }
         public ActionResult my404()
         {
             return View();
@@ -75,7 +70,6 @@ namespace MVCstore.Controllers
             }
             return View("IndexCustomers");
         }
-
 
         public ActionResult About()
         {
@@ -132,7 +126,6 @@ namespace MVCstore.Controllers
           return View(new Customers());
         }
 
-
         public ActionResult SubmitRegister()
         {
                       
@@ -153,6 +146,12 @@ namespace MVCstore.Controllers
             }
             else
                 return View("Register", new Customers());
+        }
+
+        public ActionResult Login()
+        {
+
+            return View();
         }
 
         public ActionResult SubmitLogin()
