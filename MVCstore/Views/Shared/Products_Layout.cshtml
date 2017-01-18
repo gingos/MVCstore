@@ -6,6 +6,7 @@
     <title>@ViewBag.Title - Gingos Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -19,12 +20,16 @@
                 @Html.ActionLink("Borat Express", "IndexCustomers", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
+
                 <ul class="nav navbar-nav">
+
                     <li>@Html.ActionLink("Shop", "showProducts", "Products")</li>
                     <li>@Html.ActionLink("See Cart", "showCart", "Products")</li>
                     <li>@Html.ActionLink("Purchase History", "viewHistory", "Products")</li>
+                    <li> @Html.ActionLink("Log Out", "LogOut", "Products")</li>
+                    
                 </ul>
-            </div>
+            </div> 
         </div>
     </div>
     <div class="container body-content">

@@ -16,22 +16,38 @@ namespace MVCstore.Controllers
     {
         CustomersDal custDal = null;
 
+        /// <summary>
+        /// Site's Main Page, Allows Login or Register
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Enter()
         {
             return View("Enter");
         }
 
+        /// <summary>
+        /// Directs To Login View
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Login()
         {
 
             return View();
         }
 
+        /// <summary>
+        /// if user customer crosses to employee or vice versa, he will get 404
+        /// </summary>
+        /// <returns></returns>
         public ActionResult my404()
         {
             return View();
         }
        
+        /// <summary>
+        /// Main page for Employees
+        /// </summary>
+        /// <returns></returns>
         public ActionResult IndexEmployees()
         {
             int userID;
@@ -47,6 +63,10 @@ namespace MVCstore.Controllers
             return View("IndexEmployees");
         }
         
+        /// <summary>
+        /// Main page for Customers
+        /// </summary>
+        /// <returns></returns>
         public ActionResult IndexCustomers()
         {
             int userID;
@@ -62,16 +82,25 @@ namespace MVCstore.Controllers
             return View("IndexCustomers");
         }
 
+        /// <summary>
+        /// About page for Guests
+        /// </summary>
+        /// <returns></returns>
         public ActionResult GuestAbout()
         {
             return View();
         }
 
+        /// <summary>
+        /// Contact Us page for guests
+        /// </summary>
+        /// <returns></returns>
         public ActionResult GuestContact()
         {
             return View();
         }
 
+        /*
         public ActionResult About()
         {
             int userID;
@@ -105,14 +134,21 @@ namespace MVCstore.Controllers
             ViewBag.Message = "How to contact us, in case Google comes knocking.";
             return View();
         }
-
+        */
+        /// <summary>
+        /// Register new Customers
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Register()
         {
 
           return View(new Customers());
         }
 
-
+        /// <summary>
+        /// Action Handles new customer Registration
+        /// </summary>
+        /// <returns></returns>
         public ActionResult SubmitRegister()
         {
                       
@@ -135,6 +171,10 @@ namespace MVCstore.Controllers
                 return View("Register", new Customers());
         }
 
+        /// <summary>
+        /// Action handles login: accesses DB and verifies credentials
+        /// </summary>
+        /// <returns></returns>
         public ActionResult SubmitLogin()
         {
 
