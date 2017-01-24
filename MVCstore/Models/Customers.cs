@@ -23,7 +23,7 @@ namespace MVCstore.Models
         public int CustomerNumber { get; set; }
 
         [Required]
-        [RegularExpression ("[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$",ErrorMessage = "what have i asked? a frikin email?")]
+        [RegularExpression ("[a-z0-9A-Z._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$",ErrorMessage = "only numbers and english letters")]
         public string Email { get; set; }
 
        

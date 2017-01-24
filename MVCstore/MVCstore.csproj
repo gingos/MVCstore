@@ -157,7 +157,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\OpenController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\StockController.cs" />
     <Compile Include="DAL\CustomersDal.cs" />
@@ -245,9 +244,7 @@
     <Content Include="Views\Home\GuestAbout.cshtml" />
     <Content Include="Views\Home\GuestContact.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Open\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
