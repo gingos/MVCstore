@@ -100,41 +100,7 @@ namespace MVCstore.Controllers
             return View();
         }
 
-        /*
-        public ActionResult About()
-        {
-            int userID;
-            if (Session != null && Session["type"] != null)
-            {
-                if (Session["userID"] != null)
-                    userID = (int)Session["userID"];
-            }
-            else
-            {
-                RedirectToAction("my404", "Home");
-            }
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            
-
-            int userID;
-            if (Session != null && Session["type"] != null)
-            {
-                if (Session["userID"] != null)
-                    userID = (int)Session["userID"];
-            }
-            else
-            {
-                return RedirectToAction("my404", "Home");
-            }
-
-            ViewBag.Message = "How to contact us, in case Google comes knocking.";
-            return View();
-        }
-        */
+        
         /// <summary>
         /// Register new Customers
         /// </summary>
